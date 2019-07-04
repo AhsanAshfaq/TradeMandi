@@ -1,9 +1,12 @@
 export class Student {
-   _id: String;
-   student_name: String;
-   student_email: String;
-   section: String;
+   // tslint:disable-next-line:variable-name
+   _id: string;
+   // tslint:disable-next-line:variable-name
+   student_name: string;
+   // tslint:disable-next-line:variable-name
+   student_email: string;
+   section: string;
    subjects: Array<string>;
    dob: Date;
-   gender: String;
+   gender: string;
 }

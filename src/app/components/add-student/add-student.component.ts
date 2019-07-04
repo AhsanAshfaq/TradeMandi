@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { ApiService } from './../../shared/api.service';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 export interface Subject {
   name: string;
@@ -47,7 +47,7 @@ export class AddStudentComponent implements OnInit {
       subjects: [this.subjectArray],
       dob: ['', [Validators.required]],
       gender: ['Male']
-    })
+    });
   }
 
   /* Add dynamic languages */
@@ -56,7 +56,7 @@ export class AddStudentComponent implements OnInit {
     const value = event.value;
     // Add language
     if ((value || '').trim() && this.subjectArray.length < 5) {
-      this.subjectArray.push({ name: value.trim() })
+      this.subjectArray.push({ name: value.trim() });
     }
     // Reset the input value
     if (input) {
@@ -70,28 +70,27 @@ export class AddStudentComponent implements OnInit {
     if (index >= 0) {
       this.subjectArray.splice(index, 1);
     }
-  }  
+  }
 
   /* Date */
   formatDate(e) {
-    var convertDate = new Date(e.target.value).toISOString().substring(0, 10);
+    const convertDate = new Date(e.target.value).toISOString().substring(0, 10);
     this.studentForm.get('dob').setValue(convertDate, {
       onlyself: true
-    })
-  }  
+    });
+  }
 
   /* Get errors */
   public handleError = (controlName: string, errorName: string) => {
     return this.studentForm.controls[controlName].hasError(errorName);
-  }  
+  }
 
   /* Submit book */
   submitStudentForm() {
     if (this.studentForm.valid) {
       this.studentApi.AddStudent(this.studentForm.value).subscribe(res => {
-        this.ngZone.run(() => this.router.navigateByUrl('/students-list'))
+        this.ngZone.run(() => this.router.navigateByUrl('/students-list'));
       });
     }
   }
-
 }
