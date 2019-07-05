@@ -2,6 +2,10 @@
 <div class="title-group">
   <h1 class="mat-h1">Students List</h1>
   <mat-divider fxFlex="1 0"></mat-divider>
+  <button mat-menu-item>
+      <mat-icon>create</mat-icon>
+      <span>Add Student</span>
+    </button>
 </div>
 
 <p *ngIf="StudentData.length <= 0" class="no-data">There is no student added yet!</p>
