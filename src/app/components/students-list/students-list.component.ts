@@ -1,5 +1,5 @@
-import { Student } from './../../shared/student';
-import { ApiService } from './../../shared/api.service';
+import { Student } from '../../shared/models/student';
+import { ApiService } from '../../shared/services/students.service';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';

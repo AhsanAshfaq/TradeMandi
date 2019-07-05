@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { AddStudentComponent } from './components/add-student/add-student.component';
 import { EditStudentComponent } from './components/edit-student/edit-student.component';
 import { StudentsListComponent } from './components/students-list/students-list.component';
+import { AddUserComponent } from './components/add-user/add-user.component';
+import { UsersListComponent } from './components/users-list/users-list.component';
 
 /* Angular material */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,7 +19,7 @@ import { MatMenuModule} from '@angular/material/menu';
 import { HttpClientModule } from '@angular/common/http';
 
 /* Angular 8 CRUD services */
-import { ApiService } from './shared/api.service';
+import { ApiService } from './shared/services/students.service';
 
 /* Reactive form services in Angular 8 */
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -28,7 +30,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AppComponent,
     AddStudentComponent,
     EditStudentComponent,
-    StudentsListComponent
+    StudentsListComponent,
+    AddUserComponent,
+    UsersListComponent
   ],
   imports: [
     BrowserModule,

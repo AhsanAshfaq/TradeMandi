@@ -4,11 +4,10 @@ const Schema = mongoose.Schema;
 
 // Define collection and schema
 let User = new Schema({
-    _id: mongoose.Schema.Types.ObjectId,
     user_name: String,
     user_email: String,
     user_company_id: mongoose.Schema.Types.ObjectId,
-    user_password: string,
+    user_password: String,
     gender: String,
     dob: Date,
     user_phone: String,

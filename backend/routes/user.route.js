@@ -1,12 +1,13 @@
-import express, { Router } from 'express';
+const express = require('express');
 const app = express();
-const userRoute = Router();
+const userRoute = express.Router();
 
+let User = require('../model/User');
 // User model
-import { create, find, findById, findByIdAndUpdate, findByIdAndRemove } from '../model/User';
 
 userRoute.route('/user').post((req, res, next) => {
-    create(req.body, (error, data) => {
+    console.log(req.body.user_name);
+    User.create(req.body, (error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -16,7 +17,7 @@ userRoute.route('/user').post((req, res, next) => {
 });
 
 userRoute.route('/users').get((req, res) => {
-    find((error, data) => {
+    User.find((error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -26,7 +27,7 @@ userRoute.route('/users').get((req, res) => {
 })
 
 userRoute.route('/user/:id').get((req, res) => {
-    findById(req.params.id, (error, data) => {
+    User.findById(req.params.id, (error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -37,7 +38,7 @@ userRoute.route('/user/:id').get((req, res) => {
 
 
 userRoute.route('/user/:id').put((req, res, next) => {
-    findByIdAndUpdate(req.params.id, {
+    User.findByIdAndUpdate(req.params.id, {
         $set: req.body
     }, (error, data) => {
         if (error) {
@@ -51,7 +52,7 @@ userRoute.route('/user/:id').put((req, res, next) => {
 })
 
 userRoute.route('/user/:id').delete((req, res, next) => {
-    findByIdAndRemove(req.params.id, (error, data) => {
+    User.findByIdAndRemove(req.params.id, (error, data) => {
         if (error) {
             return next(error);
         } else {
@@ -62,4 +63,4 @@ userRoute.route('/user/:id').delete((req, res, next) => {
     })
 })
 
-export default userRoute;
+module.exports = userRoute;

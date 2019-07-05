@@ -9,10 +9,10 @@
 <mat-sidenav-container>
   <!-- Sidenav -->
   <mat-sidenav #sidenav [mode]="isBiggerScreen() ? 'over' : 'side'" [(opened)]="opened" [fixedInViewport]="true" [fixedTopGap]>
-      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+      <button mat-icon-button [matMenuTriggerFor]="students">
           <mat-icon>view_list</mat-icon>Students Management
         </button>
-        <mat-menu #menu="matMenu">
+        <mat-menu #students="matMenu">
             <a routerLink="/students-list" style="text-decoration: none;">
           <button mat-menu-item>
             <mat-icon>format_list_bulleted</mat-icon>
@@ -23,6 +23,24 @@
           <button mat-menu-item>
             <mat-icon>create</mat-icon>
             <span>Add Student</span>
+          </button>
+        </a>
+        </mat-menu>
+        <br />
+        <button mat-icon-button [matMenuTriggerFor]="users">
+          <mat-icon>view_list</mat-icon>Users Management
+        </button>
+        <mat-menu #users="matMenu">
+            <a routerLink="/users-list" style="text-decoration: none;">
+          <button mat-menu-item>
+            <mat-icon>format_list_bulleted</mat-icon>
+            <span>User List</span>
+          </button>
+          </a>
+          <a routerLink="/add-user" style="text-decoration: none;">
+          <button mat-menu-item>
+            <mat-icon>create</mat-icon>
+            <span>Add User</span>
           </button>
         </a>
         </mat-menu>
