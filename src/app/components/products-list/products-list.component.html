@@ -1,12 +1,12 @@
 <!-- Title group  -->
 <div class="title-group">
-    <h1 class="mat-h1">Users Management</h1>
+    <h1 class="mat-h1">Products Management</h1>
     <mat-divider fxFlex="1 0"></mat-divider>
 
-  <a routerLink='/add-user' class="margin-bottom-link-button">
+  <a routerLink='/add-product' class="margin-bottom-link-button">
     <button mat-button>
       <mat-icon>create</mat-icon>
-      Add User
+      Add Product
     </button>
   </a>
   <mat-divider  class="" fxFlex="1 0"></mat-divider>
@@ -14,9 +14,9 @@
 
   </div>
 
-  <p *ngIf="UserData.length <= 0" class="no-data">There is no student added yet!</p>
+  <p *ngIf="ProductData.length <= 0" class="no-data">There is no student added yet!</p>
 
-  <div class="container" *ngIf="UserData.length > 0">
+  <div class="container" *ngIf="ProductData.length > 0">
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource">
         <ng-container matColumnDef="_id">
@@ -24,27 +24,27 @@
           <td mat-cell *matCellDef="let element"> {{element._id}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="user_name">
-          <th mat-header-cell *matHeaderCellDef> User Name </th>
-          <td mat-cell *matCellDef="let element"> {{element.user_name}} </td>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Product Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="user_email">
+        <ng-container matColumnDef="quantity">
           <th mat-header-cell *matHeaderCellDef> Email </th>
-          <td mat-cell *matCellDef="let element"> {{element.user_email}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="user_phone">
+        <ng-container matColumnDef="productWarningLimit">
           <th mat-header-cell *matHeaderCellDef> Phone </th>
-          <td mat-cell *matCellDef="let element"> {{element.user_phone}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.productWarningLimit}} </td>
         </ng-container>
 
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef> Action </th>
           <td mat-cell *matCellDef="let element; let i = index;">
             <button mat-raised-button color="primary" class="push-right"
-              [routerLink]="['/edit-user/', element._id]">Edit</button>
-            <button mat-raised-button color="accent" (click)="deleteUser(i, element)">Delete</button>
+              [routerLink]="['/edit-product/', element._id]">Edit</button>
+            <button mat-raised-button color="accent" (click)="deleteProduct(i, element)">Delete</button>
           </td>
         </ng-container>
 

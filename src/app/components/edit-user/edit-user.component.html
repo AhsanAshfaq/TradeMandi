@@ -1,0 +1,57 @@
+<!-- Title group  -->
+<div class="title-group">
+  <h1 class="mat-h1">Edit User</h1>
+  <mat-divider fxFlex="1 0"></mat-divider>
+</div>
+
+<!-- Form -->
+<div class="inner-wrapper">
+  <form [formGroup]="userForm" (ngSubmit)="updateUserForm()" #resetUserForm="ngForm" novalidate>
+    <!-- Left block -->
+    <mat-card>
+      <div class="controlers-wrapper">
+        <!-- Name -->
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="User name" formControlName="user_name">
+          <mat-error *ngIf="handleError('user_name', 'required')">
+            You must provide a<strong>user name</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Email -->
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="User email" formControlName="user_email">
+          <mat-error *ngIf="handleError('user_email', 'required')">
+            You must provide a<strong>user email</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </mat-card>
+    <!-- Right block -->
+    <mat-card>
+      <div class="controlers-wrapper">
+        <!-- Password -->
+        <mat-form-field class="example-full-width">
+          <input matInput readonly placeholder="User Password" formControlName="user_password">
+        </mat-form-field>
+
+        <!-- Phone -->
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="User Phone" formControlName="user_phone">
+          <mat-error *ngIf="handleError('user_phone', 'required')">
+            You must provide a<strong>user phone</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </mat-card>
+
+    <!-- Submit & Reset -->
+    <mat-card>
+      <div class="full-wrapper button-wrapper">
+        <div class="button-wrapper">
+          <button mat-flat-button color="warn">Update</button>
+        </div>
+      </div>
+    </mat-card>
+  </form>
+</div>

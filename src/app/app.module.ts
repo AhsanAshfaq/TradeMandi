@@ -9,6 +9,10 @@ import { EditStudentComponent } from './components/edit-student/edit-student.com
 import { StudentsListComponent } from './components/students-list/students-list.component';
 import { AddUserComponent } from './components/add-user/add-user.component';
 import { UsersListComponent } from './components/users-list/users-list.component';
+import { EditUserComponent } from './components/edit-user/edit-user.component';
+import { AddProductComponent } from './components/add-product/add-product.component';
+import { ProductsListComponent } from './components/products-list/products-list.component';
+import { EditProductComponent } from './components/edit-product/edit-product.component';
 
 /* Angular material */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -32,7 +36,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     EditStudentComponent,
     StudentsListComponent,
     AddUserComponent,
-    UsersListComponent
+    EditUserComponent,
+    UsersListComponent,
+    AddProductComponent,
+    EditProductComponent,
+    ProductsListComponent
   ],
   imports: [
     BrowserModule,

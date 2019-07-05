@@ -1,11 +1,16 @@
 <!-- Title group  -->
 <div class="title-group">
-  <h1 class="mat-h1">Students List</h1>
+  <h1 class="mat-h1">Students Management</h1>
   <mat-divider fxFlex="1 0"></mat-divider>
-  <button mat-menu-item>
+
+  <a routerLink='/add-student' class="margin-bottom-link-button">
+    <button mat-button>
       <mat-icon>create</mat-icon>
-      <span>Add Student</span>
+      Add Student
     </button>
+  </a>
+  <mat-divider  class="" fxFlex="1 0"></mat-divider>
+  <br />
 </div>
 
 <p *ngIf="StudentData.length <= 0" class="no-data">There is no student added yet!</p>

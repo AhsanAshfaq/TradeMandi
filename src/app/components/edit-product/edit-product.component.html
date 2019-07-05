@@ -1,0 +1,61 @@
+<!-- Title group  -->
+<div class="title-group">
+  <h1 class="mat-h1">Edit Product</h1>
+  <mat-divider fxFlex="1 0"></mat-divider>
+</div>
+
+<!-- Form -->
+<div class="inner-wrapper">
+  <form [formGroup]="productForm" (ngSubmit)="updateProductForm()" #resetProductForm="ngForm" novalidate>
+    <!-- Left block -->
+    <mat-card>
+      <div class="controlers-wrapper">
+        <!-- Name -->
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Product name" formControlName="name">
+          <mat-error *ngIf="handleError('name', 'required')">
+            You must provide a<strong>product name</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Email -->
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Product quantity" formControlName="quantity">
+          <mat-error *ngIf="handleError('quantity', 'required')">
+            You must provide a<strong>product quantity</strong>
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+    </mat-card>
+
+    <!-- Right block -->
+    <mat-card>
+      <div class="controlers-wrapper">
+        <!-- Add subjects -->
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Product description" formControlName="description">
+          <mat-error *ngIf="handleError('description', 'required')">
+            You must provide a<strong>product descirpiton</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Product Warning Limit" formControlName="productWarningLimit">
+          <mat-error *ngIf="handleError('productWarningLimit', 'required')">
+            You must provide a<strong>product product warning limit</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </mat-card>
+
+    <!-- Submit & Reset -->
+    <mat-card>
+      <div class="full-wrapper button-wrapper">
+        <div class="button-wrapper">
+          <button mat-flat-button color="warn">Update</button>
+        </div>
+      </div>
+    </mat-card>
+  </form>
+</div>
