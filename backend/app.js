@@ -21,6 +21,7 @@ mongoose.connect(dataBaseConfig.db, {
 const studentRoute = require('./routes/student.route')
 const userRoute = require('./routes/user.route')
 const productRoute = require('./routes/product.route')
+const customerRoute = require('./routes/customer.route')
 
 const app = express();
 app.use(bodyParser.json());
@@ -37,6 +38,7 @@ app.use(express.static(path.join(__dirname, 'dist/angular8-meanstack-angular-mat
 app.use('/api', studentRoute)
 app.use('/api', userRoute)
 app.use('/api', productRoute)
+app.use('/api', customerRoute)
 // PORT
 const port = 4000;
 

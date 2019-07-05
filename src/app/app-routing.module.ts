@@ -9,6 +9,9 @@ import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { ProductsListComponent } from './components/products-list/products-list.component';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
+import { AddCustomerComponent } from './components/add-customer/add-customer.component';
+import { CustomersListComponent } from './components/customers-list/customers-list.component';
+import { EditCustomerComponent } from './components/edit-customer/edit-customer.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'add-user' },
@@ -21,6 +24,9 @@ const routes: Routes = [
   { path: 'add-product', component: AddProductComponent },
   { path: 'products-list', component: ProductsListComponent },
   { path: 'edit-product/:id', component: EditProductComponent },
+  { path: 'add-customer', component: AddCustomerComponent },
+  { path: 'customers-list', component: CustomersListComponent },
+  { path: 'edit-customer/:id', component: EditCustomerComponent },
 ];
 
 @NgModule({
