@@ -1,11 +1,11 @@
 const express = require('express');
-const customerRoute = express.Router();
+const supplierRoute = express.Router();
 
-let Customer = require('../model/Customer');
-// Customer model
+let Supplier = require('../model/Supplier');
+// Supplier model
 
-customerRoute.route('/customer').post((req, res, next) => {
-    Customer.create(req.body, (error, data) => {
+supplierRoute.route('/supplier').post((req, res, next) => {
+  Supplier.create(req.body, (error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -14,8 +14,8 @@ customerRoute.route('/customer').post((req, res, next) => {
     })
 });
 
-customerRoute.route('/customers').get((req, res) => {
-    Customer.find((error, data) => {
+supplierRoute.route('/suppliers').get((req, res) => {
+  Supplier.find((error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -24,8 +24,8 @@ customerRoute.route('/customers').get((req, res) => {
     })
 })
 
-customerRoute.route('/customer/:id').get((req, res) => {
-    Customer.findById(req.params.id, (error, data) => {
+supplierRoute.route('/supplier/:id').get((req, res) => {
+  Supplier.findById(req.params.id, (error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -35,8 +35,8 @@ customerRoute.route('/customer/:id').get((req, res) => {
 })
 
 
-customerRoute.route('/customer/:id').put((req, res, next) => {
-    Customer.findByIdAndUpdate(req.params.id, {
+supplierRoute.route('/supplier/:id').put((req, res, next) => {
+  Supplier.findByIdAndUpdate(req.params.id, {
         $set: req.body
     }, (error, data) => {
         if (error) {
@@ -44,13 +44,13 @@ customerRoute.route('/customer/:id').put((req, res, next) => {
             console.log(error)
         } else {
             res.json(data)
-            console.log('Customer successfully updated!')
+            console.log('User successfully updated!')
         }
     })
 })
 
-customerRoute.route('/customer/:id').delete((req, res, next) => {
-    Customer.findByIdAndRemove(req.params.id, (error, data) => {
+supplierRoute.route('/supplier/:id').delete((req, res, next) => {
+  Supplier.findByIdAndRemove(req.params.id, (error, data) => {
         if (error) {
             return next(error);
         } else {
@@ -61,4 +61,4 @@ customerRoute.route('/customer/:id').delete((req, res, next) => {
     })
 })
 
-module.exports = customerRoute;
+module.exports = supplierRoute;

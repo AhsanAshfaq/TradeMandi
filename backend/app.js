@@ -22,6 +22,7 @@ const studentRoute = require('./routes/student.route')
 const userRoute = require('./routes/user.route')
 const productRoute = require('./routes/product.route')
 const customerRoute = require('./routes/customer.route')
+const supplierRoute = require('./routes/supplier.route')
 
 const app = express();
 app.use(bodyParser.json());
@@ -39,6 +40,7 @@ app.use('/api', studentRoute)
 app.use('/api', userRoute)
 app.use('/api', productRoute)
 app.use('/api', customerRoute)
+app.use('/api', supplierRoute)
 // PORT
 const port = 4000;
 

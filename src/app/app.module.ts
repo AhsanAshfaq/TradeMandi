@@ -16,6 +16,9 @@ import { EditProductComponent } from './components/edit-product/edit-product.com
 import { AddCustomerComponent } from './components/add-customer/add-customer.component';
 import { CustomersListComponent } from './components/customers-list/customers-list.component';
 import { EditCustomerComponent } from './components/edit-customer/edit-customer.component';
+import { AddSupplierComponent } from './components/add-supplier/add-supplier.component';
+import { SuppliersListComponent } from './components/suppliers-list/suppliers-list.component';
+import { EditSupplierComponent } from './components/edit-supplier/edit-supplier.component';
 
 /* Angular material */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -46,7 +49,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ProductsListComponent,
     AddCustomerComponent,
     EditCustomerComponent,
-    CustomersListComponent
+    CustomersListComponent,
+    AddSupplierComponent,
+    EditSupplierComponent,
+    SuppliersListComponent
   ],
   imports: [
     BrowserModule,
