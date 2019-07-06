@@ -40,6 +40,17 @@ export class ApiService {
       );
   }
 
+  GetProductByName(name): Observable<any> {
+    const API_URL = `${this.endpoint}/product/${name}`;
+    return this.http.get(API_URL, { headers: this.headers })
+      .pipe(
+        map((res: Response) => {
+          return res || {};
+        }),
+        catchError(this.errorMgmt)
+      );
+  }
+
   UpdateProduct(id, data): Observable<any> {
     const API_URL = `${this.endpoint}/product/${id}`;
     return this.http.put(API_URL, data, { headers: this.headers })

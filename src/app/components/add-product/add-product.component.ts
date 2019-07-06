@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
 import { ApiService } from '../../shared/services/products.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UnitTypes } from '../../shared/models/product';
 
 export interface Subject {
   name: string;
@@ -18,6 +19,8 @@ export class AddProductComponent implements OnInit {
   selectable = true;
   removable = true;
   addOnBlur = true;
+  unitTypes = UnitTypes;
+  keys: string[];
   @ViewChild('resetProductForm', { static: true }) myNgForm;
   productForm: FormGroup;
 
@@ -30,7 +33,9 @@ export class AddProductComponent implements OnInit {
     private router: Router,
     private ngZone: NgZone,
     private productApi: ApiService
-  ) { }
+  ) {
+    this.keys = Object.keys(this.unitTypes).filter(Number);
+  }
 
   /* Reactive book form */
   submitBookForm() {
@@ -38,7 +43,8 @@ export class AddProductComponent implements OnInit {
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
       quantity: ['', [Validators.required]],
-      purchaseWarningLimit: ['', [Validators.required]]
+      purchaseWarningLimit: ['', [Validators.required]],
+      unit: [UnitTypes.Bag.toString(), [Validators.required]]
     });
   }
 

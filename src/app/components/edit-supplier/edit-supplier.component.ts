@@ -34,12 +34,12 @@ export class EditSupplierComponent implements OnInit {
   ) {
     const id = this.actRoute.snapshot.paramMap.get('id');
     this.supplierApi.GetSupplier(id).subscribe(data => {
-      console.log(data.subjects);
       this.supplierForm = this.fb.group({
         name: [data.name, [Validators.required]],
         phone: [data.phone, [Validators.required]],
         address: [data.address, [Validators.required]],
-        city: [data.city, [Validators.required]]
+        city: [data.city, [Validators.required]],
+        balance: [data.balance, [Validators.required]]
       });
     });
   }
@@ -50,7 +50,8 @@ export class EditSupplierComponent implements OnInit {
       name: ['', [Validators.required]],
       phone: ['', [Validators.required]],
       address: ['', [Validators.required]],
-      city: ['', [Validators.required]]
+      city: ['', [Validators.required]],
+      balance: ['', [Validators.required]]
     });
   }
 
@@ -59,7 +60,6 @@ export class EditSupplierComponent implements OnInit {
   }
 
   updateSupplierForm() {
-    console.log(this.supplierForm.value);
     const id = this.actRoute.snapshot.paramMap.get('id');
     if (window.confirm('Are you sure you want to update?')) {
       this.supplierApi.UpdateSupplier(id, this.supplierForm.value).subscribe( res => {

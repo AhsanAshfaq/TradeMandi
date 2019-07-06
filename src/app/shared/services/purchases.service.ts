@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Supplier } from '../models/supplier';
+import { Purchase } from '../models/purchase';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
   providedIn: 'root'
 })
 
-export class ApiService {
+export class PurchaseApiService {
 
   endpoint = 'http://localhost:4000/api';
 
@@ -16,8 +16,8 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  AddSupplier(data: Supplier): Observable<any> {
-    const API_URL = `${this.endpoint}/supplier`;
+  AddPurchase(data: Purchase): Observable<any> {
+    const API_URL = `${this.endpoint}/purchase`;
     console.log(API_URL);
     return this.http.post(API_URL, data)
       .pipe(
@@ -25,12 +25,12 @@ export class ApiService {
       );
   }
 
-  GetSuppliers() {
-    return this.http.get(`${this.endpoint}/suppliers`);
+  GetPurchases() {
+    return this.http.get(`${this.endpoint}/purchases`);
   }
 
-  GetSupplier(id): Observable<any> {
-    const API_URL = `${this.endpoint}/supplier/${id}`;
+  GetPurchase(id): Observable<any> {
+    const API_URL = `${this.endpoint}/purchase/${id}`;
     return this.http.get(API_URL, { headers: this.headers })
       .pipe(
         map((res: Response) => {
@@ -40,26 +40,16 @@ export class ApiService {
       );
   }
 
-  GetSupplierByName(name): Observable<any> {
-    const API_URL = `${this.endpoint}/supplier/${name}`;
-    return this.http.get(API_URL, { headers: this.headers })
-      .pipe(
-        map((res: Response) => {
-          return res || {};
-        }),
-        catchError(this.errorMgmt)
-      );
-  }
-  UpdateSupplier(id, data): Observable<any> {
-    const API_URL = `${this.endpoint}/supplier/${id}`;
+  UpdatePurchase(id, data): Observable<any> {
+    const API_URL = `${this.endpoint}/purchase/${id}`;
     return this.http.put(API_URL, data, { headers: this.headers })
       .pipe(
         catchError(this.errorMgmt)
       );
   }
 
-  DeleteSupplier(id): Observable<any> {
-    const API_URL = `${this.endpoint}/supplier/${id}`;
+  DeletePurchase(id): Observable<any> {
+    const API_URL = `${this.endpoint}/purchase/${id}`;
     return this.http.delete(API_URL)
       .pipe(
         catchError(this.errorMgmt)

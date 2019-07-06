@@ -6,7 +6,9 @@ let Supplier = new Schema({
     phone: String,
     address: String,
     city: String,
-    balance: Number
+    balance: Number,
+    products: [{type: mongoose.Schema.Types.ObjectId, ref: 'products'}],
+    purchases: [{type: mongoose.Schema.Types.ObjectId, ref: 'purcahses'}]
 }, {
         collection: 'suppliers'
     })

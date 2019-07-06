@@ -5,7 +5,6 @@ let Product = require('../model/Product');
 // Product model
 
 productRoute.route('/product').post((req, res, next) => {
-    console.log(req.body.product_name);
     Product.create(req.body, (error, data) => {
         if (error) {
             return next(error)
@@ -33,6 +32,16 @@ productRoute.route('/product/:id').get((req, res) => {
             res.json(data)
         }
     })
+})
+
+productRoute.route('/product/:name').get((req, res) => {
+  Product.findOne({'name': req.params.name}, (error, data) => {
+      if (error) {
+          return next(error)
+      } else {
+          res.json(data)
+      }
+  })
 })
 
 

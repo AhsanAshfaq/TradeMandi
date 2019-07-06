@@ -34,6 +34,15 @@ supplierRoute.route('/supplier/:id').get((req, res) => {
     })
 })
 
+supplierRoute.route('/supplier/:name').get((req, res) => {
+  Supplier.findOne({'name': req.params.name}, (error, data) => {
+      if (error) {
+          return next(error)
+      } else {
+          res.json(data)
+      }
+  })
+})
 
 supplierRoute.route('/supplier/:id').put((req, res, next) => {
   Supplier.findByIdAndUpdate(req.params.id, {
