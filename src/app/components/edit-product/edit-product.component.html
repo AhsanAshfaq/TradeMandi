@@ -46,6 +46,17 @@
             You must provide a<strong>product product warning limit</strong>
           </mat-error>
         </mat-form-field>
+        <mat-form-field>
+          <mat-label>Unit Type</mat-label>
+          <mat-select [(value)]="selected" formControlName="unit">
+            <mat-option [value]="unitTypes[key]" *ngFor="let key of keys">
+              {{unitTypes[key]}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="handleError('unit', 'required')">
+            Unit Type is required
+          </mat-error>
+        </mat-form-field>
       </div>
     </mat-card>
 

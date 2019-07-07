@@ -1,9 +1,8 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipInputEvent } from '@angular/material/chips';
 import { ApiService } from '../../shared/services/products.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UnitTypes } from '../../shared/models/product';
 
 export interface Subject {
   name: string;
@@ -22,6 +21,8 @@ export class EditProductComponent implements OnInit {
   addOnBlur = true;
   @ViewChild('resetProductForm', { static: true }) myNgForm;
   productForm: FormGroup;
+  unitTypes = UnitTypes;
+  keys: string[];
 
   ngOnInit() {
     this.updateBookForm();
@@ -34,6 +35,7 @@ export class EditProductComponent implements OnInit {
     private actRoute: ActivatedRoute,
     private productApi: ApiService
   ) {
+    this.keys = Object.keys(this.unitTypes).filter(Number);
     const id = this.actRoute.snapshot.paramMap.get('id');
     this.productApi.GetProduct(id).subscribe(data => {
       console.log(data.subjects);
@@ -41,7 +43,8 @@ export class EditProductComponent implements OnInit {
         name: [data.name, [Validators.required]],
         quantity: [data.quantity, [Validators.required]],
         description: [data.description, [Validators.required]],
-        productWarningLimit: [data.productWarningLimit, [Validators.required]]
+        productWarningLimit: [data.productWarningLimit, [Validators.required]],
+        unit: [data.unit.toString(), [Validators.required]]
       });
     });
   }
@@ -52,7 +55,8 @@ export class EditProductComponent implements OnInit {
       name: ['', [Validators.required]],
       quantity: ['', [Validators.required]],
       description: ['', [Validators.required]],
-      productWarningLimit: ['', [Validators.required]]
+      productWarningLimit: ['', [Validators.required]],
+      unit: ['', [Validators.required]]
     });
   }
 

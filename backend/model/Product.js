@@ -14,7 +14,7 @@ let Product = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'purchases'
   }],
-  purchase_warning_limit: Number
+  productWarningLimit: Number
 }, {
   collection: 'products'
 })

@@ -51,7 +51,7 @@ purchaseRoute.route('/purchase/:id').get((req, res) => {
     } else {
       res.json(data)
     }
-  })
+  }).populate('suppliers').populate('products').exec();
 })
 
 

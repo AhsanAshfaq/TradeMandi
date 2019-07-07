@@ -7,7 +7,7 @@ let Purchase = new Schema({
   builtyNumber: String,
   amount: String,
   quantity: Number,
-  purchaseData: Date,
+  purchaseDate: Date,
   product: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'products'

@@ -21,6 +21,7 @@ import { SuppliersListComponent } from './components/suppliers-list/suppliers-li
 import { EditSupplierComponent } from './components/edit-supplier/edit-supplier.component';
 import { AddPurchaseComponent } from './components/add-purchase/add-purchase.component';
 import { PurchasesListComponent } from './components/purchases-list/purchases-list.component';
+import { EditPurchaseComponent } from './components/edit-purchase/edit-purchase.component';
 
 /* Angular material */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -56,7 +57,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     EditSupplierComponent,
     SuppliersListComponent,
     AddPurchaseComponent,
-    PurchasesListComponent
+    PurchasesListComponent,
+    EditPurchaseComponent
   ],
   imports: [
     BrowserModule,
