@@ -14,14 +14,14 @@
         <mat-form-field class="example-full-width">
           <input matInput placeholder="Customer name" formControlName="name">
           <mat-error *ngIf="handleError('name', 'required')">
-            You must provide a<strong>customer name</strong>
+            You must provide a <strong>customer name</strong>
           </mat-error>
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
           <input matInput placeholder="Customer Phone" formControlName="phone">
           <mat-error *ngIf="handleError('phone', 'required')">
-            You must provide a<strong>customer phone</strong>
+            You must provide a <strong>customer phone</strong>
           </mat-error>
         </mat-form-field>
 
@@ -34,16 +34,24 @@
         <mat-form-field class="example-full-width">
           <input matInput placeholder="Customer Address" formControlName="address">
           <mat-error *ngIf="handleError('address', 'required')">
-            You must provide a<strong>customer address</strong>
+            You must provide a <strong>customer address</strong>
           </mat-error>
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
           <input matInput placeholder="Customer City" formControlName="city">
           <mat-error *ngIf="handleError('city', 'required')">
-            You must provide a<strong>customer city</strong>
+            You must provide a <strong>customer city</strong>
           </mat-error>
         </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Customer Starting Balance" formControlName="balance">
+          <mat-error *ngIf="handleError('balance', 'required')">
+            You must provide a <strong>customer starting balance</strong>
+          </mat-error>
+        </mat-form-field>
+
       </div>
     </mat-card>
 

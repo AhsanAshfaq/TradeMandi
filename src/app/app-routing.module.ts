@@ -18,6 +18,9 @@ import { EditSupplierComponent } from './components/edit-supplier/edit-supplier.
 import { AddPurchaseComponent } from './components/add-purchase/add-purchase.component';
 import { PurchasesListComponent } from './components/purchases-list/purchases-list.component';
 import { EditPurchaseComponent } from './components/edit-purchase/edit-purchase.component';
+import { AddSaleComponent } from './components/add-sale/add-sale.component';
+import { SalesListComponent } from './components/sales-list/sales-list.component';
+import { EditSaleComponent } from './components/edit-sale/edit-sale.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'add-user' },
@@ -39,6 +42,9 @@ const routes: Routes = [
   { path: 'purchases-list', component: PurchasesListComponent },
   { path: 'add-purchase', component: AddPurchaseComponent },
   { path: 'edit-purchase/:id', component: EditPurchaseComponent },
+  { path: 'sales-list', component: SalesListComponent },
+  { path: 'add-sale', component: AddSaleComponent },
+  { path: 'edit-sale/:id', component: EditSaleComponent },
 ];
 
 @NgModule({

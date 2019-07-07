@@ -38,7 +38,8 @@ export class AddCustomerComponent implements OnInit {
       name: ['', [Validators.required]],
       phone: ['', [Validators.required]],
       address: ['', [Validators.required]],
-      city: ['', [Validators.required]]
+      city: ['', [Validators.required]],
+      balance: ['', [Validators.required]]
     });
   }
 

@@ -22,12 +22,15 @@ import { EditSupplierComponent } from './components/edit-supplier/edit-supplier.
 import { AddPurchaseComponent } from './components/add-purchase/add-purchase.component';
 import { PurchasesListComponent } from './components/purchases-list/purchases-list.component';
 import { EditPurchaseComponent } from './components/edit-purchase/edit-purchase.component';
+import { AddSaleComponent } from './components/add-sale/add-sale.component';
+import { SalesListComponent } from './components/sales-list/sales-list.component';
+import { EditSaleComponent } from './components/edit-sale/edit-sale.component';
 
 /* Angular material */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './material.module';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatMenuModule} from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
 /* Angular 8 http service */
 import { HttpClientModule } from '@angular/common/http';
 
@@ -58,7 +61,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SuppliersListComponent,
     AddPurchaseComponent,
     PurchasesListComponent,
-    EditPurchaseComponent
+    EditPurchaseComponent,
+    AddSaleComponent,
+    EditSaleComponent,
+    SalesListComponent
   ],
   imports: [
     BrowserModule,

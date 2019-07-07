@@ -14,6 +14,10 @@ let Product = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'purchases'
   }],
+  sales: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'sales'
+  }],
   productWarningLimit: Number
 }, {
   collection: 'products'

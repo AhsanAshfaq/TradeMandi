@@ -63,7 +63,6 @@ purchaseRoute.route('/purchase/:id').put((req, res, next) => {
       return next(error);
     } else {
       res.json(data)
-      console.log('Purchase successfully updated!')
     }
   })
 })

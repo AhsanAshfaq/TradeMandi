@@ -1,10 +1,10 @@
-export class Purchase {
+export class Sale {
   builtyNumber: string;
   amount: string;
   quantity: number;
   purchaseDate: Date;
   product: any;
-  supplier: any;
+  customer: any;
   truckNumber: string;
   paymentType: {
     type: PaymentTypes,

@@ -1,18 +1,18 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let Purchase = new Schema({
+let Sale = new Schema({
   builtyNumber: String,
   amount: String,
   quantity: Number,
-  purchaseDate: Date,
+  saleDate: Date,
   product: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'products'
   },
-  supplier: {
+  customer: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'suppliers'
+    ref: 'customers'
   },
   truckNumber: String,
   paymentType: {
@@ -21,7 +21,7 @@ let Purchase = new Schema({
     default: 'Cash'
   }
 }, {
-  collection: 'purchases'
+  collection: 'sales'
 })
 
-module.exports = mongoose.model('Purchase', Purchase)
+module.exports = mongoose.model('Sale', Sale)

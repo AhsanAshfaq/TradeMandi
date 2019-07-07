@@ -1,42 +1,36 @@
 <!-- Title group  -->
 <div class="title-group">
-  <h1 class="mat-h1">Add Purchase</h1>
+  <h1 class="mat-h1">Edit Sale</h1>
   <mat-divider fxFlex="1 0"></mat-divider>
 </div>
 
 <!-- Form -->
 <div class="inner-wrapper">
-  <form [formGroup]="purchaseForm" (ngSubmit)="submitPurchaseForm()" #resetPurchaseForm="ngForm" novalidate>
+  <form [formGroup]="saleForm" (ngSubmit)="updateSaleForm()" #resetSaleForm="ngForm" novalidate>
     <!-- Left block -->
     <mat-card>
       <div class="controlers-wrapper">
         <!-- Name -->
         <mat-form-field class="example-full-width">
           <input matInput placeholder="Builty Number" formControlName="builtyNumber">
-          <mat-error *ngIf="handleError('builtyNumber', 'required')">
-            You must provide a<strong>purchase builtyNumber</strong>
-          </mat-error>
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
-          <input matInput placeholder="Purchase Quantity" formControlName="quantity">
+          <input matInput placeholder="Sale Quantity" formControlName="quantity">
           <mat-error *ngIf="handleError('quantity', 'required')">
-            You must provide a<strong>purchase quantity</strong>
+            You must provide a<strong>sale quantity</strong>
           </mat-error>
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
           <input matInput placeholder="Truck Number" formControlName="truckNumber">
-          <mat-error *ngIf="handleError('truckNumber', 'required')">
-            You must provide a<strong>truck number</strong>
-          </mat-error>
         </mat-form-field>
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Product Amount" formControlName="amount">
-            <mat-error *ngIf="handleError('amount', 'required')">
-              You must provide a<strong>product amount</strong>
-            </mat-error>
-          </mat-form-field>
+          <input matInput placeholder="Product Amount" formControlName="amount">
+          <mat-error *ngIf="handleError('amount', 'required')">
+            You must provide a<strong>product amount</strong>
+          </mat-error>
+        </mat-form-field>
       </div>
     </mat-card>
     <!-- Right block -->
@@ -55,14 +49,14 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-label>Supplier</mat-label>
-          <mat-select [(value)]="selectedSupplier" formControlName="supplier">
-            <mat-option [value]="element._id" *ngFor="let element of supplierList">
+          <mat-label>Customer</mat-label>
+          <mat-select [(value)]="selectedCustomer" formControlName="customer">
+            <mat-option [value]="element._id" *ngFor="let element of customerList">
               {{element.name}}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="handleError('supplier', 'required')">
-            Supplier is required
+          <mat-error *ngIf="handleError('customer', 'required')">
+            Customer is required
           </mat-error>
         </mat-form-field>
 
@@ -78,21 +72,22 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field>
-            <input matInput readonly [matDatepicker]="picker" placeholder="Purchase Date" formControlName="purchaseDate"
-              (dateChange)="formatDate($event)">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-            <mat-error *ngIf="handleError('purchaseDate', 'required')">
-              Purchase Date is required
-            </mat-error>
-          </mat-form-field>
+          <input matInput readonly [matDatepicker]="picker" placeholder="Sale Date" formControlName="saleDate"
+            (dateChange)="formatDate($event)">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="handleError('saleDate', 'required')">
+            Sale Date is required
+          </mat-error>
+        </mat-form-field>
       </div>
     </mat-card>
+
     <!-- Submit & Reset -->
     <mat-card>
       <div class="full-wrapper button-wrapper">
         <div class="button-wrapper">
-          <button mat-flat-button color="warn">Submit</button>
+          <button mat-flat-button color="warn">Update</button>
         </div>
       </div>
     </mat-card>
