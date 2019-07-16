@@ -16,80 +16,100 @@
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
-          <input matInput placeholder="Sale Quantity" formControlName="quantity">
-          <mat-error *ngIf="handleError('quantity', 'required')">
-            You must provide a<strong>sale quantity</strong>
+          <input matInput placeholder="Truck Number" formControlName="truckNumber">
+          <mat-error *ngIf="handleError('truckNumber', 'required')">
+            You must provide a<strong> truck number</strong>
           </mat-error>
         </mat-form-field>
-
-        <mat-form-field class="example-full-width">
-          <input matInput placeholder="Truck Number" formControlName="truckNumber">
-        </mat-form-field>
-
-        <mat-form-field class="example-full-width">
-            <input matInput placeholder="Product Amount" formControlName="amount">
-            <mat-error *ngIf="handleError('amount', 'required')">
-              You must provide a<strong>product amount</strong>
-            </mat-error>
-          </mat-form-field>
       </div>
     </mat-card>
     <!-- Right block -->
     <mat-card>
       <div class="controlers-wrapper">
-        <mat-form-field>
-          <mat-label>Product</mat-label>
-          <mat-select [(value)]="selectedProduct" formControlName="product">
-            <mat-option [value]="element._id" *ngFor="let element of productList">
-              {{element.name}}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="handleError('product', 'required')">
-            Product is required
+
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Truck Rent" formControlName="truckRent">
+          <mat-error *ngIf="handleError('truckRent', 'required')">
+            You must provide a<strong> truck rent</strong>
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Customer</mat-label>
-          <mat-select [(value)]="selectedCustomer" formControlName="customer">
-            <mat-option [value]="element._id" *ngFor="let element of customerList">
-              {{element.name}}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="handleError('customer', 'required')">
-            Customer is required
-          </mat-error>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Description" formControlName="description">
         </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Payment Type</mat-label>
-          <mat-select [(value)]="selected" formControlName="paymentType">
-            <mat-option [value]="paymentTypes[key]" *ngFor="let key of keys">
-              {{paymentTypes[key]}}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="handleError('paymentType', 'required')">
-            Payment Type is required
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput readonly [matDatepicker]="picker" placeholder="Sale Date" formControlName="saleDate"
-              (dateChange)="formatDate($event)">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-            <mat-error *ngIf="handleError('saleDate', 'required')">
-              Sale Date is required
-            </mat-error>
-          </mat-form-field>
       </div>
     </mat-card>
-    <!-- Submit & Reset -->
+    <mat-divider></mat-divider>
+    <div style="margin-top: 30px !important;">
+      <table>
+        <tr>
+          <td>
+            Select Product :
+          </td>
+          <td>
+              <mat-form-field>
+                  <mat-select [(value)]="prodc">
+                    <mat-option *ngFor="let product of productList" [value]="product._id">
+                      {{product.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+          </td>
+          <td>
+            Qty
+          </td>
+          <td>
+            <mat-form-field class="example-full-width">
+              <input matInput value="10">
+            </mat-form-field>
+          </td>
+          <td>
+            <button type="button" mat-raised-button color="primary" (click)="startNewTable($event)">
+              Start Adding Items</button>
+          </td>
+        </tr>
+      </table>
+      <table>
+        <tr *ngFor="let ele of lineItems;let i = index">
+          <td>
+            <mat-form-field class="example-full-width">
+              <input matInput type="date" value="{{ ele.date }}" (change)="onChangeDate($event, i)" />
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" [(value)]="ele.qty" (change)="onChangeQty($event, i)" />
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" value="{{ ele.rate }}" (change)="onChangeRate($event, i)" />
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <mat-select (selectionChange)="onChangeCustomer($event, i)">
+                <mat-option *ngFor="let customer of customerList" [value]="customer._id">
+                  {{customer.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" value="{{ ele.totalAmount }}" readonly (keydown.Tab)="startNewTable($event)" />
+            </mat-form-field>
+          </td>
+
+        </tr>
+      </table>
+    </div>
     <mat-card>
-      <div class="full-wrapper button-wrapper">
-        <div class="button-wrapper">
-          <button mat-flat-button color="warn">Submit</button>
+        <div class="full-wrapper button-wrapper">
+          <div class="button-wrapper">
+            <button mat-flat-button color="warn">Submit</button>
+          </div>
         </div>
-      </div>
-    </mat-card>
+      </mat-card>
   </form>
 </div>

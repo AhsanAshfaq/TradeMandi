@@ -40,6 +40,8 @@ import { ApiService } from './shared/services/students.service';
 /* Reactive form services in Angular 8 */
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { SanitizeHtmlPipe } from 'src/app/shared/pipes/sanitizeHtmlPipe';
+
 
 @NgModule({
   declarations: [
@@ -76,7 +78,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [ApiService],
+  providers: [ApiService, SanitizeHtmlPipe],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

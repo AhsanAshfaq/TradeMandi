@@ -62,9 +62,9 @@ export class EditSaleComponent implements OnInit {
     this.saleData = data;
     console.log(this.saleData);
     const productControl = 'product';
-    this.saleForm.controls[productControl].setValue(this.saleData.product);
+    // this.saleForm.controls[productControl].setValue(this.saleData.product);
     const customerControl = 'customer';
-    this.saleForm.controls[customerControl].setValue(this.saleData.customer);
+    // this.saleForm.controls[customerControl].setValue(this.saleData.customer);
   }
 
   formatDate(e) {
