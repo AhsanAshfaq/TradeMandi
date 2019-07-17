@@ -1,0 +1,14 @@
+.result th{
+  text-align: left;
+  padding: 7px;
+}
+.result{
+  border: 1px solid gainsboro;
+  padding: 5px;
+  border-collapse: collapse;
+}
+
+.result td{
+  border: 1px solid gainsboro;
+  padding: 10px;
+}

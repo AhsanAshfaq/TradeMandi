@@ -14,24 +14,24 @@ import { getLocaleDateTimeFormat } from '@angular/common';
   styleUrls: ['./add-sale.component.css']
 })
 
-@Directive({
-  selector: '[appAutofocus]'
-})
-
 export class AddSaleComponent implements OnInit {
   visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
   @ViewChild('resetSaleForm', { static: true }) myNgForm: any;
+  @ViewChild('qty', { static: true }) qtyColumn: any;
   saleForm: FormGroup;
   productList: any = [];
+  selectedProduct = '';
   customerList: any = [];
   paymentTypes = PaymentTypes;
   keys: string[];
   selectedCustomerName: any;
   lineItems = [];
   currentStringDate: any;
+  saleDetailList = [];
+  isEditMode = false;
 
   ngOnInit() {
     this.submitBookForm();
@@ -68,21 +68,100 @@ export class AddSaleComponent implements OnInit {
   }
 
   startNewTable(event) {
+    this.isEditMode = false;
     const resultArray = [];
     for (let index = 0; index < this.customerList.length; index++) {
       // tslint:disable-next-line:no-string-literal
       resultArray[index] = this.customerList[index];
     }
-    const lineItemModel = {
+    const lineItem = {
       date: this.currentStringDate,
-      qty: 0,
       rate: 0,
+      qty: 0,
+      customer: '',
       customers: resultArray,
       totalAmount: 0,
-      customer: ''
+      customerName: '',
+      productName: '',
+      productId: this.selectedProduct
     };
-    this.lineItems.push(lineItemModel);
+    if (this.lineItems.length === 1) {
+      let customerName = '';
+      let productName = '';
+      customerName = this.getCustomerName(customerName);
+      productName = this.getProductName(productName);
+      this.lineItems[0].customerName = customerName;
+      this.lineItems[0].productName = productName;
+      this.saleDetailList.push(this.lineItems[0]);
+    }
+    this.lineItems = [lineItem];
+    // this.qtyColumn.nativeElement.focus();
+  }
 
+  private getCustomerName(customerName: string) {
+    this.customerList.forEach(element => {
+      if (element._id === this.lineItems[0].customer) {
+        customerName = element.name;
+      }
+    });
+    return customerName;
+  }
+
+  private getProductName(productName: string) {
+    this.productList.forEach(element => {
+      if (element._id === this.selectedProduct) {
+        productName = element.name;
+      }
+    });
+    return productName;
+  }
+
+  private getProductId(productName: string) {
+    let productId = '';
+    this.productList.forEach(element => {
+      if (element.name === productName) {
+        productId = element._id;
+      }
+    });
+    return productId;
+  }
+
+  onEdit($event, i) {
+    if (this.isEditMode) {
+      alert('You can edit one item at a time.');
+      return;
+    }
+    this.isEditMode = true;
+    const tempArray = JSON.parse(JSON.stringify(this.saleDetailList));
+    const clickedItem = tempArray.reverse()[i];
+    this.lineItems = [];
+    this.lineItems.push(clickedItem);
+    this.selectedProduct = this.getProductId(clickedItem.productName);
+    for (let index = this.saleDetailList.length - 1; index >= 0; --index) {
+      if (this.saleDetailList[index].productName === clickedItem.productName
+        && this.saleDetailList[index].customer === clickedItem.customer
+        && this.saleDetailList[index].qty === clickedItem.qty
+      ) {
+        this.saleDetailList.splice(index, 1);
+      }
+    }
+  }
+
+  onDelete($event, i) {
+    if (this.isEditMode) {
+      alert('Please complete your edit first.');
+      return;
+    }
+    const tempArray = JSON.parse(JSON.stringify(this.saleDetailList));
+    const clickedItem = tempArray.reverse()[i];
+    for (let index = this.saleDetailList.length - 1; index >= 0; --index) {
+      if (this.saleDetailList[index].productName === clickedItem.productName
+        && this.saleDetailList[index].customer === clickedItem.customer
+        && this.saleDetailList[index].qty === clickedItem.qty
+      ) {
+        this.saleDetailList.splice(index, 1);
+      }
+    }
   }
 
   onChangeQty($event, i) {
@@ -95,7 +174,6 @@ export class AddSaleComponent implements OnInit {
     this.lineItems[i].totalAmount = this.lineItems[i].rate * this.lineItems[i].qty;
   }
   onChangeCustomer($event, i) {
-    debugger
     this.lineItems[i].customer = $event.value;
   }
   onChangeDate($event, i) {
@@ -103,16 +181,16 @@ export class AddSaleComponent implements OnInit {
   }
 
   submitBookForm() {
+    const isConfirmed = confirm('Are you sure to submit');
+    if (isConfirmed) {
     this.saleForm = this.fb.group({
       builtyNumber: [''],
       truckRent: ['', [Validators.required]],
       description: [''],
       saleDate: ['', [Validators.required]],
       truckNumber: ['', [Validators.required]],
-      // product: ['', [Validators.required]],
-      // customer: ['', [Validators.required]],
-      // paymentType: [PaymentTypes.Cash.toString(), [Validators.required]]
     });
+  } else {return; }
   }
 
   formatDate(e) {

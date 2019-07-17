@@ -41,6 +41,7 @@ import { ApiService } from './shared/services/students.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SanitizeHtmlPipe } from 'src/app/shared/pipes/sanitizeHtmlPipe';
+import { ArraySortPipe } from 'src/app/shared/pipes/arraySort';
 
 
 @NgModule({
@@ -66,7 +67,9 @@ import { SanitizeHtmlPipe } from 'src/app/shared/pipes/sanitizeHtmlPipe';
     EditPurchaseComponent,
     AddSaleComponent,
     EditSaleComponent,
-    SalesListComponent
+    SalesListComponent,
+    SanitizeHtmlPipe,
+    ArraySortPipe
   ],
   imports: [
     BrowserModule,
@@ -78,7 +81,7 @@ import { SanitizeHtmlPipe } from 'src/app/shared/pipes/sanitizeHtmlPipe';
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [ApiService, SanitizeHtmlPipe],
+  providers: [ApiService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
