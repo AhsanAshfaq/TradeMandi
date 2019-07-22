@@ -42,6 +42,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SanitizeHtmlPipe } from 'src/app/shared/pipes/sanitizeHtmlPipe';
 import { ArraySortPipe } from 'src/app/shared/pipes/arraySort';
+import { SaleComponent } from './components/sales/sale/sale.component';
+import { SalesComponent } from './components/sales/sales.component';
+import { SaleDetailComponent } from './components/sales/sale-detail/sale-detail.component';
 
 
 @NgModule({
@@ -69,7 +72,10 @@ import { ArraySortPipe } from 'src/app/shared/pipes/arraySort';
     EditSaleComponent,
     SalesListComponent,
     SanitizeHtmlPipe,
-    ArraySortPipe
+    ArraySortPipe,
+    SaleComponent,
+    SalesComponent,
+    SaleDetailComponent
   ],
   imports: [
     BrowserModule,

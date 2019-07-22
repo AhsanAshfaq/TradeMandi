@@ -26,7 +26,6 @@
     <!-- Right block -->
     <mat-card>
       <div class="controlers-wrapper">
-
         <mat-form-field class="example-full-width">
           <input matInput placeholder="Truck Rent" formControlName="truckRent">
           <mat-error *ngIf="handleError('truckRent', 'required')">
@@ -39,8 +38,11 @@
         </mat-form-field>
       </div>
     </mat-card>
-    <mat-divider></mat-divider>
-    <div style="margin-top: 30px !important;">
+  </form>
+</div>
+<div style="clear: both;"></div>
+<mat-card>
+    <mat-card-content>
       <table>
         <tr>
           <td>
@@ -69,47 +71,65 @@
           </td>
         </tr>
       </table>
-      <table>
-          <tr *ngFor="let ele of lineItems;let i = index">
-            <td>
-              <mat-form-field class="example-full-width">
-                <input matInput type="date" value="{{ ele.date }}" (change)="onChangeDate($event, i)" />
-              </mat-form-field>
-            </td>
-            <td>
-              <mat-form-field class="example-full-width">
-                <input matInput #qty type="text" [(value)]="ele.qty" (change)="onChangeQty($event, i)" />
-              </mat-form-field>
-            </td>
-            <td>
-              <mat-form-field class="example-full-width">
-                <input matInput type="text" value="{{ ele.rate }}" (change)="onChangeRate($event, i)" />
-              </mat-form-field>
-            </td>
-            <td>
-              <mat-form-field>
-                <mat-select (selectionChange)="onChangeCustomer($event, i)">
-                  <mat-option *ngFor="let customer of customerList" [value]="customer._id">
-                    {{customer.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </td>
-            <td>
-              <mat-form-field class="example-full-width">
-                <input matInput type="text" value="{{ ele.totalAmount }}" readonly
-                  (keydown.Tab)="startNewTable($event)" />
-              </mat-form-field>
-            </td>
+    </mat-card-content>
+  </mat-card>
 
-          </tr>
-        </table>
-      <table class="result">
+<mat-card>
+    <table style="margin-top: 40px;margin-bottom: 40px;">
+        <tr *ngFor="let ele of lineItems;let i = index">
+          <td>
+            <mat-form-field style="width: 125px !important;">
+              <input matInput placeholder="Date" type="date" value="{{ ele.date }}"
+                (change)="onChangeDate($event, i)" />
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field  style="width: 125px !important;">
+              <input matInput placeholder="Qty" #qty type="text" [(value)]="ele.qty"
+                (change)="onChangeQty($event, i)" />
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field  style="width: 125px !important;">
+              <input matInput placeholder="Rate" type="text" value="{{ ele.rate }}"
+                (change)="onChangeRate($event, i)" />
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field style="width: 125px !important;">
+              <mat-select placeholder="Customer" [(value)]="selectedCustomerName"
+                (selectionChange)="onChangeCustomer($event, i)">
+                <mat-option *ngFor="let customer of customerList" [value]="customer._id">
+                  {{customer.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field style="width: 125px !important;">
+              <mat-select placeholder="P.Type" [(value)]="selectedPaymentType">
+                <mat-option value="Cash">Cash</mat-option>
+                <mat-option value="Credit">Credit</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field  style="width: 125px !important;">
+              <input matInput placeholder="Total" type="text" value="{{ ele.totalAmount }}" readonly
+                (keydown.Tab)="startNewTable($event)" />
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+</mat-card>
+<mat-card>
+    <table class="result">
         <tr *ngIf="saleDetailList.length > 0">
           <th>Date</th>
           <th>Quantity</th>
           <th>Rate</th>
           <th>Customer</th>
+          <th>Payment Type</th>
           <th>Product</th>
           <th>Total Amount</th>
           <th colspan="2">Action</th>
@@ -119,20 +139,12 @@
           <td>{{ele.qty}}</td>
           <td>{{ele.rate}}</td>
           <td>{{ele.customerName}}</td>
+          <td>{{ele.paymentType}}</td>
           <td>{{ele.productName}}</td>
           <td>{{ele.totalAmount}}</td>
           <td><button type="button" mat-flat-button color="primary" (click)="onEdit($event, i)">Edit</button></td>
           <td><button type="button" mat-flat-button color="warn" (click)="onDelete($event, i)">Delete</button></td>
         </tr>
       </table>
+</mat-card>
 
-    </div>
-    <mat-card>
-      <div class="full-wrapper button-wrapper">
-        <div class="button-wrapper">
-          <button mat-flat-button color="warn">Submit</button>
-        </div>
-      </div>
-    </mat-card>
-  </form>
-</div>

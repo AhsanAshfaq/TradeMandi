@@ -21,9 +21,11 @@ import { EditPurchaseComponent } from './components/edit-purchase/edit-purchase.
 import { AddSaleComponent } from './components/add-sale/add-sale.component';
 import { SalesListComponent } from './components/sales-list/sales-list.component';
 import { EditSaleComponent } from './components/edit-sale/edit-sale.component';
+import { SalesComponent } from './components/sales/sales.component';
+import { SaleComponent } from './components/sales/sale/sale.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'add-user' },
+  { path: '', pathMatch: 'full', redirectTo: 'sale' },
   { path: 'add-student', component: AddStudentComponent },
   { path: 'edit-student/:id', component: EditStudentComponent },
   { path: 'students-list', component: StudentsListComponent },
@@ -45,6 +47,12 @@ const routes: Routes = [
   { path: 'sales-list', component: SalesListComponent },
   { path: 'add-sale', component: AddSaleComponent },
   { path: 'edit-sale/:id', component: EditSaleComponent },
+  // Sales
+  { path: 'sales', component: SalesComponent },
+  { path: 'sale', children: [
+    { path: 'sales', component: SaleComponent },
+    { path: 'edit/:id', component: SalesComponent }
+  ]},
 ];
 
 @NgModule({

@@ -15,19 +15,12 @@ export class SaleDetail {
   sale: any;
   product: any;
   numberOfBags: number;
-  lineItems: [LineItem];
-}
-
-export class LineItem {
   date: number;
   qty: number;
   rate: number;
   customer: any;
   totalAmount: number;
-  paymentType: {
-    type: PaymentTypes,
-    default: PaymentTypes.Cash
-  };
+  paymentType: string;
 }
 
 export enum PaymentTypes {

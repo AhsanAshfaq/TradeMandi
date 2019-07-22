@@ -28,10 +28,27 @@ export class AddSaleComponent implements OnInit {
   paymentTypes = PaymentTypes;
   keys: string[];
   selectedCustomerName: any;
+  selectedPaymentType: any;
   lineItems = [];
   currentStringDate: any;
   saleDetailList = [];
   isEditMode = false;
+  editField: string;
+    personList: Array<any> = [
+      { id: 1, name: 'Aurelia Vega', age: 30, companyName: 'Deepends', country: 'Spain', city: 'Madrid' },
+      { id: 2, name: 'Guerra Cortez', age: 45, companyName: 'Insectus', country: 'USA', city: 'San Francisco' },
+      { id: 3, name: 'Guadalupe House', age: 26, companyName: 'Isotronic', country: 'Germany', city: 'Frankfurt am Main' },
+      { id: 4, name: 'Aurelia Vega', age: 30, companyName: 'Deepends', country: 'Spain', city: 'Madrid' },
+      { id: 5, name: 'Elisa Gallagher', age: 31, companyName: 'Portica', country: 'United Kingdom', city: 'London' },
+    ];
+
+    awaitingPersonList: Array<any> = [
+      { id: 6, name: 'George Vega', age: 28, companyName: 'Classical', country: 'Russia', city: 'Moscow' },
+      { id: 7, name: 'Mike Low', age: 22, companyName: 'Lou', country: 'USA', city: 'Los Angeles' },
+      { id: 8, name: 'John Derp', age: 36, companyName: 'Derping', country: 'USA', city: 'Chicago' },
+      { id: 9, name: 'Anastasia John', age: 21, companyName: 'Ajo', country: 'Brazil', city: 'Rio' },
+      { id: 10, name: 'John Maklowicz', age: 36, companyName: 'Mako', country: 'Poland', city: 'Bialystok' },
+    ];
 
   ngOnInit() {
     this.submitBookForm();
@@ -49,6 +66,33 @@ export class AddSaleComponent implements OnInit {
     this.fillMetaData();
     this.currentStringDate = new Date().toISOString().substring(0, 10);
   }
+
+    updateList(id: number, property: string, event: any) {
+      const editField = event.target.textContent;
+      this.personList[id][property] = editField;
+    }
+
+    remove(id: any) {
+      this.awaitingPersonList.push(this.personList[id]);
+      this.personList.splice(id, 1);
+    }
+
+    add() {
+      if (this.awaitingPersonList.length > 0) {
+        const person = this.awaitingPersonList[0];
+        this.personList.push(person);
+        this.awaitingPersonList.splice(0, 1);
+      }
+    }
+
+    changeValue(id: number, property: string, event: any) {
+      this.editField = event.target.textContent;
+    }
+
+
+
+
+
 
   fillMetaData() {
     this.productApi.GetProducts().subscribe(data => {
@@ -83,24 +127,30 @@ export class AddSaleComponent implements OnInit {
       totalAmount: 0,
       customerName: '',
       productName: '',
-      productId: this.selectedProduct
+      productId: this.selectedProduct,
+      paymentType: 'Cash'
     };
     if (this.lineItems.length === 1) {
       let customerName = '';
       let productName = '';
-      customerName = this.getCustomerName(customerName);
+      customerName = this.getCustomerName();
       productName = this.getProductName(productName);
       this.lineItems[0].customerName = customerName;
       this.lineItems[0].productName = productName;
+      this.lineItems[0].paymentType = this.selectedPaymentType;
       this.saleDetailList.push(this.lineItems[0]);
     }
     this.lineItems = [lineItem];
     // this.qtyColumn.nativeElement.focus();
   }
 
-  private getCustomerName(customerName: string) {
+  private getCustomerName(customerId?) {
+    let customerName = '';
+    if (customerId === undefined) {
+      customerId = this.lineItems[0].customer;
+    }
     this.customerList.forEach(element => {
-      if (element._id === this.lineItems[0].customer) {
+      if (element._id === customerId) {
         customerName = element.name;
       }
     });
@@ -127,16 +177,12 @@ export class AddSaleComponent implements OnInit {
   }
 
   onEdit($event, i) {
-    if (this.isEditMode) {
-      alert('You can edit one item at a time.');
-      return;
-    }
-    this.isEditMode = true;
     const tempArray = JSON.parse(JSON.stringify(this.saleDetailList));
     const clickedItem = tempArray.reverse()[i];
     this.lineItems = [];
     this.lineItems.push(clickedItem);
     this.selectedProduct = this.getProductId(clickedItem.productName);
+    this.selectedCustomerName = clickedItem.customer;
     for (let index = this.saleDetailList.length - 1; index >= 0; --index) {
       if (this.saleDetailList[index].productName === clickedItem.productName
         && this.saleDetailList[index].customer === clickedItem.customer
@@ -148,10 +194,6 @@ export class AddSaleComponent implements OnInit {
   }
 
   onDelete($event, i) {
-    if (this.isEditMode) {
-      alert('Please complete your edit first.');
-      return;
-    }
     const tempArray = JSON.parse(JSON.stringify(this.saleDetailList));
     const clickedItem = tempArray.reverse()[i];
     for (let index = this.saleDetailList.length - 1; index >= 0; --index) {
@@ -181,8 +223,6 @@ export class AddSaleComponent implements OnInit {
   }
 
   submitBookForm() {
-    const isConfirmed = confirm('Are you sure to submit');
-    if (isConfirmed) {
     this.saleForm = this.fb.group({
       builtyNumber: [''],
       truckRent: ['', [Validators.required]],
@@ -190,7 +230,6 @@ export class AddSaleComponent implements OnInit {
       saleDate: ['', [Validators.required]],
       truckNumber: ['', [Validators.required]],
     });
-  } else {return; }
   }
 
   formatDate(e) {

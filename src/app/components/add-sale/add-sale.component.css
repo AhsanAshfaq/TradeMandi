@@ -12,3 +12,10 @@
   border: 1px solid gainsboro;
   padding: 10px;
 }
+.inner-wrapper {
+  padding: 15px 0 30px;
+  width: 100%;
+}
+.mat-form-field-infix {
+    width: 125px !important;
+}
