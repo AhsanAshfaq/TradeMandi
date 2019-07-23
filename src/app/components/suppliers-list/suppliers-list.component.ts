@@ -14,7 +14,7 @@ export class SuppliersListComponent implements OnInit {
   SupplierData: any = [];
   dataSource: MatTableDataSource<Supplier>;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  displayedColumns: string[] = ['_id', 'name', 'phone', 'city', 'action'];
+  displayedColumns: string[] = ['_id', 'name', 'phone', 'city', 'commissionPercentage', 'action'];
 
   constructor(private supplierApi: ApiService) {
     this.supplierApi.GetSuppliers().subscribe(data => {

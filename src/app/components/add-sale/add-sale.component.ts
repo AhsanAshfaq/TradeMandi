@@ -3,10 +3,10 @@ import { Component, OnInit, ViewChild, NgZone, Directive, AfterViewInit, Element
 import { ApiService } from '../../shared/services/products.service';
 import { SaleApiService } from '../../shared/services/sales.service';
 import { ApiService as CustomerApiService } from '../../shared/services/customers.service';
+import { ApiService as SupplierApiService } from '../../shared/services/suppliers.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PaymentTypes } from 'src/app/shared/models/sale';
 import { Customer as CustomerModel } from 'src/app/shared/models/customer';
-import { getLocaleDateTimeFormat } from '@angular/common';
 
 @Component({
   selector: 'app-add-sale',
@@ -25,6 +25,8 @@ export class AddSaleComponent implements OnInit {
   productList: any = [];
   selectedProduct = '';
   customerList: any = [];
+  supplierList: any = [];
+  selectedSupplier = '';
   paymentTypes = PaymentTypes;
   keys: string[];
   selectedCustomerName: any;
@@ -33,22 +35,6 @@ export class AddSaleComponent implements OnInit {
   currentStringDate: any;
   saleDetailList = [];
   isEditMode = false;
-  editField: string;
-    personList: Array<any> = [
-      { id: 1, name: 'Aurelia Vega', age: 30, companyName: 'Deepends', country: 'Spain', city: 'Madrid' },
-      { id: 2, name: 'Guerra Cortez', age: 45, companyName: 'Insectus', country: 'USA', city: 'San Francisco' },
-      { id: 3, name: 'Guadalupe House', age: 26, companyName: 'Isotronic', country: 'Germany', city: 'Frankfurt am Main' },
-      { id: 4, name: 'Aurelia Vega', age: 30, companyName: 'Deepends', country: 'Spain', city: 'Madrid' },
-      { id: 5, name: 'Elisa Gallagher', age: 31, companyName: 'Portica', country: 'United Kingdom', city: 'London' },
-    ];
-
-    awaitingPersonList: Array<any> = [
-      { id: 6, name: 'George Vega', age: 28, companyName: 'Classical', country: 'Russia', city: 'Moscow' },
-      { id: 7, name: 'Mike Low', age: 22, companyName: 'Lou', country: 'USA', city: 'Los Angeles' },
-      { id: 8, name: 'John Derp', age: 36, companyName: 'Derping', country: 'USA', city: 'Chicago' },
-      { id: 9, name: 'Anastasia John', age: 21, companyName: 'Ajo', country: 'Brazil', city: 'Rio' },
-      { id: 10, name: 'John Maklowicz', age: 36, companyName: 'Mako', country: 'Poland', city: 'Bialystok' },
-    ];
 
   ngOnInit() {
     this.submitBookForm();
@@ -60,41 +46,22 @@ export class AddSaleComponent implements OnInit {
     private ngZone: NgZone,
     private salesApi: SaleApiService,
     private productApi: ApiService,
-    private customerApi: CustomerApiService
+    private customerApi: CustomerApiService,
+    private supplierAPi: SupplierApiService
   ) {
     this.keys = Object.keys(this.paymentTypes).filter(Number);
     this.fillMetaData();
     this.currentStringDate = new Date().toISOString().substring(0, 10);
   }
 
-    updateList(id: number, property: string, event: any) {
-      const editField = event.target.textContent;
-      this.personList[id][property] = editField;
-    }
-
-    remove(id: any) {
-      this.awaitingPersonList.push(this.personList[id]);
-      this.personList.splice(id, 1);
-    }
-
-    add() {
-      if (this.awaitingPersonList.length > 0) {
-        const person = this.awaitingPersonList[0];
-        this.personList.push(person);
-        this.awaitingPersonList.splice(0, 1);
-      }
-    }
-
-    changeValue(id: number, property: string, event: any) {
-      this.editField = event.target.textContent;
-    }
-
-
-
-
-
-
   fillMetaData() {
+    this.supplierAPi.GetSuppliers().subscribe(data => {
+      let suppliers: any = [];
+      suppliers = data;
+      suppliers.forEach(element => {
+        this.supplierList.push(element);
+      });
+    });
     this.productApi.GetProducts().subscribe(data => {
       let products: any = [];
       products = data;
@@ -112,18 +79,19 @@ export class AddSaleComponent implements OnInit {
   }
 
   startNewTable(event) {
-    this.isEditMode = false;
-    const resultArray = [];
-    for (let index = 0; index < this.customerList.length; index++) {
-      // tslint:disable-next-line:no-string-literal
-      resultArray[index] = this.customerList[index];
+    if (this.saleForm.pristine) {
+      if (!this.saleForm.valid) {
+        this.saleForm.markAllAsTouched();
+        alert('Please add basic information to proceed.');
+        return;
+      }
     }
     const lineItem = {
       date: this.currentStringDate,
       rate: 0,
       qty: 0,
       customer: '',
-      customers: resultArray,
+      customers: JSON.parse(JSON.stringify(this.customerList)),
       totalAmount: 0,
       customerName: '',
       productName: '',
@@ -138,10 +106,16 @@ export class AddSaleComponent implements OnInit {
       this.lineItems[0].customerName = customerName;
       this.lineItems[0].productName = productName;
       this.lineItems[0].paymentType = this.selectedPaymentType;
+      this.sendSaleAddRequest(this.lineItems[0]);
       this.saleDetailList.push(this.lineItems[0]);
     }
     this.lineItems = [lineItem];
     // this.qtyColumn.nativeElement.focus();
+  }
+  sendSaleAddRequest(saleDetail: any) {
+     this.salesApi.GetSaleByTruckNumber(this.saleForm.value.truckNumber).subscribe(data => {
+      console.log(data);
+    });
   }
 
   private getCustomerName(customerId?) {
@@ -229,6 +203,7 @@ export class AddSaleComponent implements OnInit {
       description: [''],
       saleDate: ['', [Validators.required]],
       truckNumber: ['', [Validators.required]],
+      supplier: ['', [Validators.required]]
     });
   }
 

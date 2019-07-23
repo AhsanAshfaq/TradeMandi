@@ -39,6 +39,17 @@ export class SaleApiService {
       );
   }
 
+  GetSaleByTruckNumber(truckNumber): Observable<any> {
+    const API_URL = `${this.endpoint}/sale/${truckNumber}`;
+    return this.http.get(API_URL, { headers: this.headers })
+      .pipe(
+        map((res: Response) => {
+          return res || {};
+        }),
+        catchError(this.errorMgmt)
+      );
+  }
+
   UpdateSale(id, data): Observable<any> {
     const API_URL = `${this.endpoint}/sale/${id}`;
     return this.http.put(API_URL, data, { headers: this.headers })

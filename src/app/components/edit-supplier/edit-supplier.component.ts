@@ -39,7 +39,8 @@ export class EditSupplierComponent implements OnInit {
         phone: [data.phone, [Validators.required]],
         address: [data.address, [Validators.required]],
         city: [data.city, [Validators.required]],
-        balance: [data.balance, [Validators.required]]
+        balance: [data.balance, [Validators.required]],
+        commissionPercentage: [data.commissionPercentage, [Validators.required]]
       });
     });
   }
@@ -51,7 +52,8 @@ export class EditSupplierComponent implements OnInit {
       phone: ['', [Validators.required]],
       address: ['', [Validators.required]],
       city: ['', [Validators.required]],
-      balance: ['', [Validators.required]]
+      balance: ['', [Validators.required]],
+      commissionPercentage: ['', [Validators.required]]
     });
   }
 

@@ -39,7 +39,8 @@ export class AddSupplierComponent implements OnInit {
       phone: ['', [Validators.required]],
       address: ['', [Validators.required]],
       city: ['', [Validators.required]],
-      balance: ['', [Validators.required]]
+      balance: ['', [Validators.required]],
+      commissionPercentage: ['', [Validators.required]]
     });
   }
 

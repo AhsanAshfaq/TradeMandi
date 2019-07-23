@@ -26,11 +26,11 @@
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Starting Balance" formControlName="balance">
-            <mat-error *ngIf="handleError('balance', 'required')">
-              You must provide a<strong>starting balance</strong>
-            </mat-error>
-          </mat-form-field>
+          <input matInput placeholder="Starting Balance" formControlName="balance">
+          <mat-error *ngIf="handleError('balance', 'required')">
+            You must provide a<strong>starting balance</strong>
+          </mat-error>
+        </mat-form-field>
       </div>
     </mat-card>
 
@@ -50,7 +50,12 @@
             You must provide a<strong>supplier city</strong>
           </mat-error>
         </mat-form-field>
-
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Commission Percentage" formControlName="commissionPercentage">
+          <mat-error *ngIf="handleError('commissionPercentage', 'required')">
+            You must provide a<strong> commission percentage</strong>
+          </mat-error>
+        </mat-form-field>
 
 
       </div>

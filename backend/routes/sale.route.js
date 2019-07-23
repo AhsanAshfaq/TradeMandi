@@ -54,6 +54,17 @@ saleRoute.route('/sale/:id').get((req, res) => {
   }).populate('customers').populate('products').exec();
 })
 
+saleRoute.route('/sale/:truckNumber').get((req, res) => {
+  Sale.findOne({truckNumber : req.params.truckNumber}, (error, data) => {
+    if (error) {
+      console.log(error);
+      throw error;
+    } else {
+      res.json(data)
+    }
+  }).populate('customers').populate('products').populate('saleDetails').exec();
+})
+
 
 saleRoute.route('/sale/:id').put((req, res, next) => {
   Sale.findByIdAndUpdate(req.params.id, {

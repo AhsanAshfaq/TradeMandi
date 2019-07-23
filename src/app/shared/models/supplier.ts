@@ -4,4 +4,5 @@ export class Supplier {
   address: string;
   city: string;
   balance: number;
+  commissionPercentage: number;
 }

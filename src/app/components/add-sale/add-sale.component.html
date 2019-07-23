@@ -21,6 +21,16 @@
             You must provide a<strong> truck number</strong>
           </mat-error>
         </mat-form-field>
+        <mat-form-field>
+            <mat-select placeholder="Biopari" [(value)]="selectedSupplier" formControlName="supplier">
+              <mat-option *ngFor="let supplier of supplierList" [value]="supplier._id">
+                {{supplier.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="handleError('supplier', 'required')">
+                You must select a<strong> Biopari</strong>
+              </mat-error>
+          </mat-form-field>
       </div>
     </mat-card>
     <!-- Right block -->
@@ -36,6 +46,7 @@
         <mat-form-field class="example-full-width">
           <input matInput placeholder="Description" formControlName="description">
         </mat-form-field>
+
       </div>
     </mat-card>
   </form>

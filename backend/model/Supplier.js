@@ -7,6 +7,7 @@ let Supplier = new Schema({
     address: String,
     city: String,
     balance: Number,
+    commissionPercentage: Number,
     products: [{type: mongoose.Schema.Types.ObjectId, ref: 'products'}],
     purchases: [{type: mongoose.Schema.Types.ObjectId, ref: 'purcahses'}]
 }, {
