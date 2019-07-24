@@ -12,6 +12,7 @@ const customerRoute = require('./routes/customer.route')
 const supplierRoute = require('./routes/supplier.route')
 const purchaseRoute = require('./routes/purchase.route')
 const saleRoute = require('./routes/sale.route')
+const saleDetailRoute = require('./routes/saleDetail.route')
 
 // Connecting mongoDB
 mongoose.Promise = global.Promise;
@@ -44,6 +45,7 @@ app.use('/api', customerRoute)
 app.use('/api', supplierRoute)
 app.use('/api', purchaseRoute)
 app.use('/api', saleRoute)
+app.use('/api', saleDetailRoute)
 
 const port = 4000;
 

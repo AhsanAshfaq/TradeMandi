@@ -9,12 +9,13 @@ export class Sale {
   saleDate: Date;
   saleDetails: [SaleDetail];
   description: string;
+  grossTotal: number;
+  netTotal: number;
 }
 
 export class SaleDetail {
   sale: any;
   product: any;
-  numberOfBags: number;
   date: number;
   qty: number;
   rate: number;

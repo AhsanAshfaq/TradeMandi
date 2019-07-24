@@ -2,10 +2,11 @@ import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild, NgZone, Directive, AfterViewInit, ElementRef } from '@angular/core';
 import { ApiService } from '../../shared/services/products.service';
 import { SaleApiService } from '../../shared/services/sales.service';
+import { SaleDetailApiService } from '../../shared/services/saleDetail.service';
 import { ApiService as CustomerApiService } from '../../shared/services/customers.service';
 import { ApiService as SupplierApiService } from '../../shared/services/suppliers.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PaymentTypes } from 'src/app/shared/models/sale';
+import { PaymentTypes, Sale, SaleDetail } from 'src/app/shared/models/sale';
 import { Customer as CustomerModel } from 'src/app/shared/models/customer';
 
 @Component({
@@ -35,7 +36,7 @@ export class AddSaleComponent implements OnInit {
   currentStringDate: any;
   saleDetailList = [];
   isEditMode = false;
-
+  saleId: any;
   ngOnInit() {
     this.submitBookForm();
   }
@@ -47,7 +48,8 @@ export class AddSaleComponent implements OnInit {
     private salesApi: SaleApiService,
     private productApi: ApiService,
     private customerApi: CustomerApiService,
-    private supplierAPi: SupplierApiService
+    private supplierAPi: SupplierApiService,
+    private saleDetailApi: SaleDetailApiService
   ) {
     this.keys = Object.keys(this.paymentTypes).filter(Number);
     this.fillMetaData();
@@ -86,7 +88,41 @@ export class AddSaleComponent implements OnInit {
         return;
       }
     }
-    const lineItem = {
+    this.sendSaleAddRequest();
+    const lineItem = this.getDefaultLineItem();
+    if (this.lineItems.length === 1) {
+      this.getLineItemRecordForGrid();
+      this.saleDetailList.push(this.lineItems[0]);
+      const saleDetailObj = this.createSaleDetailForAdd();
+      this.saleDetailApi.AddSaleDetail(saleDetailObj);
+    }
+    this.lineItems = [lineItem];
+    // this.qtyColumn.nativeElement.focus();
+  }
+  private createSaleDetailForAdd() {
+    const saleDetailObj = new SaleDetail();
+    saleDetailObj.customer = this.selectedCustomerName;
+    saleDetailObj.product = this.selectedProduct;
+    saleDetailObj.date = this.lineItems[0].date;
+    saleDetailObj.paymentType = this.lineItems[0].paymentType;
+    saleDetailObj.qty = this.lineItems[0].qty;
+    saleDetailObj.rate = this.lineItems[0].rate;
+    saleDetailObj.totalAmount = this.lineItems[0].totalAmount;
+    return saleDetailObj;
+  }
+
+  private getLineItemRecordForGrid() {
+    let customerName = '';
+    let productName = '';
+    customerName = this.getCustomerName();
+    productName = this.getProductName(productName);
+    this.lineItems[0].customerName = customerName;
+    this.lineItems[0].productName = productName;
+    this.lineItems[0].paymentType = this.selectedPaymentType;
+  }
+
+  private getDefaultLineItem() {
+    return {
       date: this.currentStringDate,
       rate: 0,
       qty: 0,
@@ -98,24 +134,22 @@ export class AddSaleComponent implements OnInit {
       productId: this.selectedProduct,
       paymentType: 'Cash'
     };
-    if (this.lineItems.length === 1) {
-      let customerName = '';
-      let productName = '';
-      customerName = this.getCustomerName();
-      productName = this.getProductName(productName);
-      this.lineItems[0].customerName = customerName;
-      this.lineItems[0].productName = productName;
-      this.lineItems[0].paymentType = this.selectedPaymentType;
-      this.sendSaleAddRequest(this.lineItems[0]);
-      this.saleDetailList.push(this.lineItems[0]);
-    }
-    this.lineItems = [lineItem];
-    // this.qtyColumn.nativeElement.focus();
   }
-  sendSaleAddRequest(saleDetail: any) {
-     this.salesApi.GetSaleByTruckNumber(this.saleForm.value.truckNumber).subscribe(data => {
-      console.log(data);
-    });
+
+  sendSaleAddRequest() {
+    if (this.saleId === undefined) {
+      const saleObj = new Sale();
+      saleObj.truckNumber = this.saleForm.value.truckNumber;
+      saleObj.builtyNumber = this.saleForm.value.builtyNumber;
+      saleObj.description = this.saleForm.value.description;
+      saleObj.truckRent = this.saleForm.value.truckRent;
+      saleObj.saleDate = new Date();
+      saleObj.grossTotal = 0;
+      saleObj.netTotal = 0;
+      this.salesApi.AddSale(saleObj).subscribe(data => {
+        this.saleId = data._id;
+      });
+    }
   }
 
   private getCustomerName(customerId?) {
