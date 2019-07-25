@@ -6,7 +6,8 @@ import { SaleDetailApiService } from '../../shared/services/saleDetail.service';
 import { ApiService as CustomerApiService } from '../../shared/services/customers.service';
 import { ApiService as SupplierApiService } from '../../shared/services/suppliers.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PaymentTypes, Sale, SaleDetail } from 'src/app/shared/models/sale';
+import { PaymentTypes, Sale } from 'src/app/shared/models/sale';
+import { SaleDetail } from 'src/app/shared/models/saleDetail'
 import { Customer as CustomerModel } from 'src/app/shared/models/customer';
 
 @Component({

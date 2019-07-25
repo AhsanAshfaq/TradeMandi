@@ -1,3 +1,5 @@
+import { SaleDetail } from './saleDetail';
+
 export class Sale {
   builtyNumber: string;
   truckNumber: string;
@@ -7,25 +9,15 @@ export class Sale {
   marketCommittee: number;
   munshiana: number;
   saleDate: Date;
-  saleDetails: [SaleDetail];
+  saleDetails: [];
   description: string;
   grossTotal: number;
   netTotal: number;
 }
 
-export class SaleDetail {
-  sale: any;
-  product: any;
-  date: number;
-  qty: number;
-  rate: number;
-  customer: any;
-  totalAmount: number;
-  paymentType: string;
-}
+
 
 export enum PaymentTypes {
-  'none',
   'Cash',
   'Credit'
 }

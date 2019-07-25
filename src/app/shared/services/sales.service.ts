@@ -17,6 +17,7 @@ export class SaleApiService {
   constructor(private http: HttpClient) { }
 
   AddSale(data: Sale): Observable<any> {
+    console.log(data);
     const API_URL = `${this.endpoint}/sale`;
     return this.http.post(API_URL, data)
       .pipe(

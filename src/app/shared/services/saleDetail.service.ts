@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SaleDetail } from '../models/sale';
+import { SaleDetail } from '../models/saleDetail';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
@@ -17,13 +17,10 @@ export class SaleDetailApiService {
   constructor(private http: HttpClient) { }
 
   AddSaleDetail(data: SaleDetail): Observable<any> {
-    console.log(data);
     const API_URL = `${this.endpoint}/saledetail`;
+    console.log(data);
     console.log(API_URL);
-    return this.http.post(API_URL, data)
-      .pipe(
-        catchError(this.errorMgmt),
-      );
+    return this.http.post(API_URL, data);
   }
 
   GetSaleDetails() {
@@ -58,6 +55,7 @@ export class SaleDetailApiService {
   }
 
   errorMgmt(error: HttpErrorResponse) {
+    console.log(error);
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       // Get client-side error
