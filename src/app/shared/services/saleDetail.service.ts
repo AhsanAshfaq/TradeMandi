@@ -16,11 +16,13 @@ export class SaleDetailApiService {
 
   constructor(private http: HttpClient) { }
 
-  AddSaleDetail(data: SaleDetail): Observable<any> {
+  AddSaleDetail(data: SaleDetail) {
     const API_URL = `${this.endpoint}/saledetail`;
-    console.log(data);
-    console.log(API_URL);
-    return this.http.post(API_URL, data);
+    return this.http.post(API_URL, data).subscribe(
+      res => {
+        return res;
+      }
+    );
   }
 
   GetSaleDetails() {

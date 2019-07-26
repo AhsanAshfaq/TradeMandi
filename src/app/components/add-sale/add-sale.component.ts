@@ -95,6 +95,9 @@ export class AddSaleComponent implements OnInit {
       this.getLineItemRecordForGrid();
       this.saleDetailList.push(this.lineItems[0]);
       const saleDetailObj = this.createSaleDetailForAdd();
+      this.saleDetailApi.GetSaleDetails().subscribe( data => {
+        console.log(data);
+      });
       this.saleDetailApi.AddSaleDetail(saleDetailObj);
     }
     this.lineItems = [lineItem];
@@ -109,6 +112,7 @@ export class AddSaleComponent implements OnInit {
     saleDetailObj.qty = this.lineItems[0].qty;
     saleDetailObj.rate = this.lineItems[0].rate;
     saleDetailObj.totalAmount = this.lineItems[0].totalAmount;
+    saleDetailObj.sale = this.saleId;
     return saleDetailObj;
   }
 

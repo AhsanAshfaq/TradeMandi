@@ -6,22 +6,6 @@ let Product = require('../model/Product');
 let Customer = require('../model/Customer');
 
 saleDetailRoute.route('/saledetail').post((req, res, next) => {
-
-  // const sale = Product.findById(req.body.product, function (err, result) {
-  //   result.quantity -= parseInt(req.param('quantity'));
-  //   result.save();
-  // });
-
-  // const customer = Customer.findById(req.body.supplier, function (err, result) {
-  //   if (req.param('paymentType') == 'Credit') {
-  //     if (result.balance) {
-  //       result.balance += parseInt(req.param('totalAmount'));
-  //     } else {
-  //       result['balance'] += parseInt(req.param('totalAmount'));
-  //     }
-  //     result.save();
-  //   }
-  // });
   SaleDetail.create(req.body, (error, data) => {
     if (error) {
       return next(error)
