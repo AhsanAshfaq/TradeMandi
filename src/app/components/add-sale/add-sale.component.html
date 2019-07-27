@@ -1,9 +1,9 @@
+<div *ngIf="showLoading" class="loading">Loading&#8230;</div>
 <!-- Title group  -->
 <div class="title-group">
   <h1 class="mat-h1">Add Sale</h1>
   <mat-divider fxFlex="1 0"></mat-divider>
 </div>
-
 <!-- Form -->
 <div class="inner-wrapper">
   <form [formGroup]="saleForm" (ngSubmit)="submitSaleForm()" #resetSaleForm="ngForm" novalidate>
@@ -22,15 +22,15 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field>
-            <mat-select placeholder="Biopari" [(value)]="selectedSupplier" formControlName="supplier">
-              <mat-option *ngFor="let supplier of supplierList" [value]="supplier._id">
-                {{supplier.name}}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="handleError('supplier', 'required')">
-                You must select a<strong> Biopari</strong>
-              </mat-error>
-          </mat-form-field>
+          <mat-select placeholder="Biopari" [(value)]="selectedSupplier" formControlName="supplier">
+            <mat-option *ngFor="let supplier of supplierList" [value]="supplier._id">
+              {{supplier.name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="handleError('supplier', 'required')">
+            You must select a<strong> Biopari</strong>
+          </mat-error>
+        </mat-form-field>
       </div>
     </mat-card>
     <!-- Right block -->
@@ -51,89 +51,55 @@
     </mat-card>
   </form>
 </div>
-<div style="clear: both;"></div>
-<mat-card>
-    <mat-card-content>
-      <table>
-        <tr>
-          <td>
-            Select Product :
-          </td>
-          <td>
-            <mat-form-field>
-              <mat-select [(value)]="selectedProduct">
-                <mat-option *ngFor="let product of productList" [value]="product._id">
-                  {{product.name}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </td>
-          <td>
-            Qty
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput value="10">
-            </mat-form-field>
-          </td>
-          <td>
-            <button type="button" mat-raised-button color="primary" (click)="startNewTable($event)">
-              Start Adding Items</button>
-          </td>
-        </tr>
-      </table>
-    </mat-card-content>
-  </mat-card>
+<br />
+<mat-divider fxFlex="1 0"></mat-divider>
+<br />
+Select Product :
+<mat-form-field>
+  <mat-select [(value)]="selectedProduct">
+    <mat-option *ngFor="let product of productList" [value]="product._id">
+      {{product.name}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<br />
+<br />
+<mat-divider fxFlex="1 0"></mat-divider>
+<br />
+<div style="width: 100% !important;">
+  <mat-form-field style="width: 140px !important;margin-right: 20px;">
+    <input matInput placeholder="Date" [(ngModel)]="currentStringDate" type="date" />
+  </mat-form-field>
 
-<mat-card>
-    <table style="margin-top: 40px;margin-bottom: 40px;">
-        <tr *ngFor="let ele of lineItems;let i = index">
-          <td>
-            <mat-form-field style="width: 125px !important;">
-              <input matInput placeholder="Date" type="date" value="{{ ele.date }}"
-                (change)="onChangeDate($event, i)" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field  style="width: 125px !important;">
-              <input matInput placeholder="Qty" #qty type="text" [(value)]="ele.qty"
-                (change)="onChangeQty($event, i)" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field  style="width: 125px !important;">
-              <input matInput placeholder="Rate" type="text" value="{{ ele.rate }}"
-                (change)="onChangeRate($event, i)" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field style="width: 125px !important;">
-              <mat-select placeholder="Customer" [(value)]="selectedCustomerName"
-                (selectionChange)="onChangeCustomer($event, i)">
-                <mat-option *ngFor="let customer of customerList" [value]="customer._id">
-                  {{customer.name}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field style="width: 125px !important;">
-              <mat-select placeholder="P.Type" [(value)]="selectedPaymentType">
-                <mat-option value="Cash">Cash</mat-option>
-                <mat-option value="Credit">Credit</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field  style="width: 125px !important;">
-              <input matInput placeholder="Total" type="text" value="{{ ele.totalAmount }}" readonly
-                (keydown.Tab)="startNewTable($event)" />
-            </mat-form-field>
-          </td>
-        </tr>
-      </table>
-</mat-card>
-<mat-card>
+  <mat-form-field style="width: 140px !important;margin-right: 20px;">
+    <input matInput autofocus placeholder="Qty" [(ngModel)]="qty" type="text" />
+  </mat-form-field>
+
+  <mat-form-field style="width: 140px !important;margin-right: 20px;">
+    <input matInput placeholder="Rate" type="text" [(ngModel)]="rate" (change)="onChangeRate($event, i)" />
+  </mat-form-field>
+
+  <mat-form-field style="width: 140px !important;margin-right: 20px;">
+    <mat-select placeholder="Customer" [(ngModel)]="selectedCustomer">
+      <mat-option *ngFor="let customer of customerList" [value]="customer._id">
+        {{customer.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field style="width: 140px !important;margin-right: 20px;">
+    <mat-select placeholder="P.Type" [(ngModel)]="selectedPaymentType">
+      <mat-option value="Cash">Cash</mat-option>
+      <mat-option value="Credit">Credit</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field style="width: 140px !important;">
+    <input matInput placeholder="Total" [(ngModel)]="totalAmount" type="text" readonly
+      (keydown.Tab)="InsertCurrentValues()" />
+  </mat-form-field>
+</div>
+<div style="width: 100% !important;margin-bottom:50px !important;">
     <table class="result">
         <tr *ngIf="saleDetailList.length > 0">
           <th>Date</th>
@@ -157,5 +123,4 @@
           <td><button type="button" mat-flat-button color="warn" (click)="onDelete($event, i)">Delete</button></td>
         </tr>
       </table>
-</mat-card>
-
+</div>

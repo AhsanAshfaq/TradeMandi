@@ -16,6 +16,7 @@ Sale.add({
   saleDate: Date,
   grossTotal: Number,
   netTotal: Number,
+  description: String,
   saleDetails: []
 });
 

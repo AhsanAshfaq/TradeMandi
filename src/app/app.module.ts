@@ -31,8 +31,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './material.module';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material';
 /* Angular 8 http service */
 import { HttpClientModule } from '@angular/common/http';
+import { AutofocusDirective } from 'src/app/shared/directives/autofocus';
 
 /* Angular 8 CRUD services */
 import { ApiService } from './shared/services/students.service';
@@ -50,6 +52,7 @@ import { SaleDetailComponent } from './components/sales/sale-detail/sale-detail.
 @NgModule({
   declarations: [
     AppComponent,
+    AutofocusDirective,
     AddStudentComponent,
     EditStudentComponent,
     StudentsListComponent,
@@ -85,7 +88,8 @@ import { SaleDetailComponent } from './components/sales/sale-detail/sale-detail.
     MatMenuModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatProgressSpinnerModule
   ],
   providers: [ApiService],
   bootstrap: [AppComponent],
