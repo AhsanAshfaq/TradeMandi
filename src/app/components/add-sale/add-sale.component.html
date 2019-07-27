@@ -12,7 +12,7 @@
       <div class="controlers-wrapper">
         <!-- Name -->
         <mat-form-field class="example-full-width">
-          <input matInput placeholder="Builty Number" formControlName="builtyNumber">
+          <input matInput autofocus placeholder="Builty Number" formControlName="builtyNumber">
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
@@ -22,7 +22,7 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field>
-          <mat-select placeholder="Biopari" [(value)]="selectedSupplier" formControlName="supplier">
+          <mat-select placeholder="Biopari" [(ngModel)]="selectedSupplier" formControlName="supplier">
             <mat-option *ngFor="let supplier of supplierList" [value]="supplier._id">
               {{supplier.name}}
             </mat-option>
@@ -68,11 +68,11 @@ Select Product :
 <br />
 <div style="width: 100% !important;">
   <mat-form-field style="width: 140px !important;margin-right: 20px;">
-    <input matInput placeholder="Date" [(ngModel)]="currentStringDate" type="date" />
+    <input matInput  placeholder="Date" [(ngModel)]="date" type="date" />
   </mat-form-field>
 
   <mat-form-field style="width: 140px !important;margin-right: 20px;">
-    <input matInput autofocus placeholder="Qty" [(ngModel)]="qty" type="text" />
+    <input matInput #QuantityHandler placeholder="Qty" [(ngModel)]="qty" type="text" />
   </mat-form-field>
 
   <mat-form-field style="width: 140px !important;margin-right: 20px;">
@@ -99,8 +99,8 @@ Select Product :
       (keydown.Tab)="InsertCurrentValues()" />
   </mat-form-field>
 </div>
-<div style="width: 100% !important;margin-bottom:50px !important;">
-    <table class="result">
+<div>
+    <table class="result" style="width: 100%;background: antiquewhite;border: 3px dotted azure;">
         <tr *ngIf="saleDetailList.length > 0">
           <th>Date</th>
           <th>Quantity</th>
@@ -112,15 +112,47 @@ Select Product :
           <th colspan="2">Action</th>
         </tr>
         <tr *ngFor="let ele of saleDetailList.reverse() | sort: 'productName' let i=index;">
-          <td>{{ele.date}}</td>
+          <td>{{ele.date | date }}</td>
           <td>{{ele.qty}}</td>
           <td>{{ele.rate}}</td>
           <td>{{ele.customerName}}</td>
           <td>{{ele.paymentType}}</td>
           <td>{{ele.productName}}</td>
           <td>{{ele.totalAmount}}</td>
-          <td><button type="button" mat-flat-button color="primary" (click)="onEdit($event, i)">Edit</button></td>
-          <td><button type="button" mat-flat-button color="warn" (click)="onDelete($event, i)">Delete</button></td>
+          <td><button type="button" mat-flat-button color="primary" (click)="onEdit($event, ele.id)">Edit</button></td>
+          <td><button type="button" mat-flat-button color="warn" (click)="onDelete($event, ele.id)">Delete</button></td>
         </tr>
       </table>
+</div>
+
+<div>
+  <table style="margin-top: 10px !important; float: right; width: 40%;background: antiquewhite;border: 3px dotted azure;" class="result">
+      <tr *ngIf="saleDetailList.length > 0">
+          <td style="text-align: right;"><b>Gross Total</b></td>
+          <td><b>{{grossTotal | currency: 'PKR  '}}</b></td>
+        </tr>
+      <tr *ngIf="saleDetailList.length > 0">
+        <td style="text-align: right;"><b>Munshiana</b></td>
+        <td><input placeholder="Total" [(ngModel)]="munshiana" (keyup)="calculateNetTotal()"  type="number"/></td>
+      </tr>
+      <tr *ngIf="saleDetailList.length > 0">
+        <td style="text-align: right;"><b>Labour</b></td>
+        <td><input placeholder="Total" [(ngModel)]="labour" (keyup)="calculateNetTotal()"  type="number" /></td>
+      </tr>
+      <tr *ngIf="saleDetailList.length > 0">
+        <td style="text-align: right;"><b>Market Committee</b></td>
+        <td><input placeholder="Total" [(ngModel)]="marketCommittee" (keyup)="calculateNetTotal()"  type="number"/></td>
+      </tr>
+      <tr *ngIf="saleDetailList.length > 0">
+        <td style="text-align: right;"><b>Commission</b></td>
+        <td><input placeholder="Total" [(ngModel)]="commission" (keyup)="calculateNetTotal()"  type="number" /></td>
+      </tr>
+      <tr *ngIf="saleDetailList.length > 0">
+        <td style="text-align: right;"><b>Net Total </b></td>
+        <td><b>{{netTotal | currency: 'PKR  '}}</b></td>
+      </tr>
+    </table>
+</div>
+<div *ngIf="saleDetailList.length > 0" style="width: 100%;display: flex;align-items: center;justify-content: center;padding:35px;">
+  <button mat-flat-button style="width: 50%;text-align: center;" color="warn" type="button" (click)="finishSale()">Finish Sale</button>
 </div>

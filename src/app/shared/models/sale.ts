@@ -9,10 +9,11 @@ export class Sale {
   marketCommittee: number;
   munshiana: number;
   saleDate: Date;
-  saleDetails: [];
+  saleDetails: any[];
   description: string;
   grossTotal: number;
   netTotal: number;
+  supplier: any;
 }
 
 

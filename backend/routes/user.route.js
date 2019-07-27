@@ -6,7 +6,6 @@ let User = require('../model/User');
 // User model
 
 userRoute.route('/user').post((req, res, next) => {
-    console.log(req.body.user_name);
     User.create(req.body, (error, data) => {
         if (error) {
             return next(error)
@@ -43,7 +42,6 @@ userRoute.route('/user/:id').put((req, res, next) => {
     }, (error, data) => {
         if (error) {
             return next(error);
-            console.log(error)
         } else {
             res.json(data)
         }

@@ -2,15 +2,22 @@ const express = require('express');
 const saleDetailRoute = express.Router();
 
 let SaleDetail = require('../model/SaleDetail');
-let Product = require('../model/Product');
-let Customer = require('../model/Customer');
+let Sale = require('../model/Sale');
 
 saleDetailRoute.route('/saledetail').post((req, res, next) => {
   SaleDetail.create(req.body, (error, data) => {
     if (error) {
       return next(error)
     } else {
-      res.json(data)
+      Sale.findById(data.sale, (error, sale) => {
+        if (error) {
+          return next(error);
+        } else {
+          sale.saleDetails.push(data);
+          sale.save();
+          res.json(data);
+        }
+      });
     }
   })
 });

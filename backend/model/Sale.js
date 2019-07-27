@@ -17,7 +17,11 @@ Sale.add({
   grossTotal: Number,
   netTotal: Number,
   description: String,
-  saleDetails: []
+  supplier: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'suppliers'
+  },
+  saleDetails: [{type: mongoose.Schema.Types.ObjectId, ref: 'saleDetails'}]
 });
 
 

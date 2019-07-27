@@ -18,18 +18,14 @@ export class SaleDetailApiService {
 
   AddSaleDetail(data: SaleDetail) {
     const API_URL = `${this.endpoint}/saledetail`;
-    return this.http.post(API_URL, data).subscribe(
-      res => {
-        return res;
-      }
-    );
+    return this.http.post(API_URL, data);
   }
 
   GetSaleDetails() {
     return this.http.get(`${this.endpoint}/saledetails`);
   }
 
-  GetSaleDetail(id): Observable<any> {
+  GetSaleDetail(id) {
     const API_URL = `${this.endpoint}/saledetail/${id}`;
     return this.http.get(API_URL, { headers: this.headers })
       .pipe(
@@ -40,7 +36,7 @@ export class SaleDetailApiService {
       );
   }
 
-  UpdateSaleDetail(id, data): Observable<any> {
+  UpdateSaleDetail(id, data) {
     const API_URL = `${this.endpoint}/saledetail/${id}`;
     return this.http.put(API_URL, data, { headers: this.headers })
       .pipe(
@@ -48,12 +44,9 @@ export class SaleDetailApiService {
       );
   }
 
-  DeleteSaleDetail(id): Observable<any> {
+  DeleteSaleDetail(id) {
     const API_URL = `${this.endpoint}/saledetail/${id}`;
-    return this.http.delete(API_URL)
-      .pipe(
-        catchError(this.errorMgmt)
-      );
+    return this.http.delete(API_URL);
   }
 
   errorMgmt(error: HttpErrorResponse) {

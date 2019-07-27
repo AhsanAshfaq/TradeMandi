@@ -23,6 +23,7 @@ export class AddSaleComponent implements OnInit {
   removable = true;
   addOnBlur = true;
   @ViewChild('resetSaleForm', { static: true }) myNgForm: any;
+  @ViewChild('QuantityHandler', { static: true }) Quantity: any;
   saleForm: FormGroup;
   productList: any = [];
   customerList: any = [];
@@ -35,10 +36,17 @@ export class AddSaleComponent implements OnInit {
   selectedCustomer: any;
   selectedPaymentType: any;
   selectedProduct = '';
-  date: Date;
+  date: Date = new Date();
   qty: number;
   rate: number;
   totalAmount: number;
+  grossTotal = 0;
+  netTotal = 0;
+  marketCommittee = 0;
+  munshiana = 0;
+  labour = 0;
+  commission = 0;
+
 
   ngOnInit() {
     this.submitBookForm();
@@ -50,6 +58,8 @@ export class AddSaleComponent implements OnInit {
     private productApi: ApiService,
     private customerApi: CustomerApiService,
     private supplierAPi: SupplierApiService,
+    private router: Router,
+    private ngZone: NgZone,
     private saleDetailApi: SaleDetailApiService
   ) {
     // this.keys = Object.keys(this.paymentTypes).filter(Number);
@@ -70,25 +80,49 @@ export class AddSaleComponent implements OnInit {
       this.showLoading = true;
       setTimeout(() => {
         this.processSaleDetail();
-        this.resetInputs();
         this.showLoading = false;
       }, 2000);
     } else {
       this.processSaleDetail();
-      this.resetInputs();
     }
+    this.Quantity.nativeElement.focus();
   }
+
+  calculateNetTotal() {
+    this.netTotal = this.grossTotal - (this.munshiana + this.commission + this.labour + this.marketCommittee);
+  }
+
+  finishSale() {
+    console.log('Finished');
+    this.ngZone.run(() => this.router.navigateByUrl('/sales-list'));
+  }
+
   private processSaleDetail() {
-    const saleDetailObj = this.createSaleDetailForAdd();
-    this.saleDetailApi.AddSaleDetail(saleDetailObj);
-    this.saleDetailList.push({
-      date: this.date,
-      qty: this.qty,
-      rate: this.rate,
-      customerName: this.getCustomerName(),
-      paymentType: this.selectedPaymentType,
-      productName: this.getProductName(),
-      totalAmount: this.totalAmount
+    this.salesApi.GetSale(this.saleId).subscribe(data => {
+      const saleDetailObj = this.createSaleDetailForAdd();
+      this.grossTotal += this.totalAmount;
+      this.netTotal = this.grossTotal - (this.munshiana + this.commission + this.labour + this.marketCommittee);
+      this.saleDetailApi.AddSaleDetail(saleDetailObj).subscribe((result: any) => {
+        this.saleDetailList.push({
+          id: result._id,
+          date: this.date,
+          qty: this.qty,
+          rate: this.rate,
+          customerName: this.getCustomerName(),
+          paymentType: this.selectedPaymentType,
+          productName: this.getProductName(),
+          totalAmount: this.totalAmount
+        });
+        this.resetInputs();
+        this.salesApi.UpdateSale(this.saleId, {
+          commission: this.commission,
+          marketCommittee: this.marketCommittee,
+          munshiana: this.munshiana,
+          labour: this.labour,
+          grossTotal: this.grossTotal,
+          netTotal: this.netTotal
+        });
+      });
     });
   }
 
@@ -113,46 +147,45 @@ export class AddSaleComponent implements OnInit {
       saleObj.description = this.saleForm.value.description;
       saleObj.truckRent = this.saleForm.value.truckRent;
       saleObj.saleDate = new Date();
-      saleObj.grossTotal = 0;
-      saleObj.netTotal = 0;
+      saleObj.grossTotal = this.grossTotal;
+      saleObj.netTotal = this.netTotal;
+      saleObj.marketCommittee = this.marketCommittee;
+      saleObj.munshiana = this.munshiana;
+      saleObj.labour = this.labour;
+      saleObj.commission = this.commission;
+      saleObj.supplier = this.selectedSupplier;
       this.salesApi.AddSale(saleObj).subscribe(data => {
         this.saleId = data._id;
       });
     }
   }
 
-  onEdit($event, i) {
-    // const tempArray = JSON.parse(JSON.stringify(this.saleDetailList));
-    // const clickedItem = tempArray.reverse()[i];
-    // this.lineItems = [];
-    // this.lineItems.push(clickedItem);
-    // this.selectedProduct = this.getProductId(clickedItem.productName);
-    // this.selectedCustomerName = clickedItem.customer;
-    // for (let index = this.saleDetailList.length - 1; index >= 0; --index) {
-    //   if (this.saleDetailList[index].productName === clickedItem.productName
-    //     && this.saleDetailList[index].customer === clickedItem.customer
-    //     && this.saleDetailList[index].qty === clickedItem.qty
-    //   ) {
-    //     this.saleDetailList.splice(index, 1);
-    //   }
-    // }
+  onEdit($event, id) {
+    this.saleDetailApi.GetSaleDetail(id).subscribe((result: any) => {
+      this.selectedCustomer = result.customer;
+      this.date = result.date;
+      this.selectedProduct = result.product;
+      this.selectedPaymentType = result.paymentType;
+      this.qty = result.qty;
+      this.rate = result.rate;
+      this.totalAmount = result.totalAmount;
+      this.grossTotal = 0;
+      this.netTotal = 0;
+      this.saleDetailList = this.saleDetailList.filter((obj) => {
+        this.grossTotal += obj.totalAmount;
+        return obj.id !== id;
+      });
+      this.calculateNetTotal();
+      this.saleDetailApi.DeleteSaleDetail(id);
+      this.Quantity.nativeElement.focus();
+    });
   }
 
-  onDelete($event, i) {
-    const tempArray = JSON.parse(JSON.stringify(this.saleDetailList));
-    const clickedItem = tempArray.reverse()[i];
-    for (let index = this.saleDetailList.length - 1; index >= 0; --index) {
-      if (this.saleDetailList[index].productName === clickedItem.productName
-        && this.saleDetailList[index].customer === clickedItem.customer
-        && this.saleDetailList[index].qty === clickedItem.qty
-      ) {
-        this.saleDetailList.splice(index, 1);
-      }
-    }
+  onDelete($event, id) {
+    this.saleDetailApi.DeleteSaleDetail(id);
   }
 
-  onChangeRate($event, i) {
-    // tslint:disable-next-line:radix
+  onChangeRate() {
     this.totalAmount = this.rate * this.qty;
   }
 
