@@ -13,7 +13,7 @@ Sale.add({
   labour: Number,
   marketCommittee: Number,
   munshiana: Number,
-  saleDate: Date,
+  saleDate: String,
   grossTotal: Number,
   netTotal: Number,
   description: String,

@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  munshiana: 2,
+  marketCommittee: 2
 };

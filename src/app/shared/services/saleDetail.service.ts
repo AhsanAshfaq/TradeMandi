@@ -46,9 +46,14 @@ export class SaleDetailApiService {
 
   DeleteSaleDetail(id) {
     const API_URL = `${this.endpoint}/saledetail/${id}`;
-    return this.http.delete(API_URL);
+    return this.http.delete(API_URL).subscribe((data: any) => {
+      console.log(data);
+    });
   }
 
+  UpdateSaleDetailsBySaleId(id) {
+    return this.http.get(`${this.endpoint}/saledetails/sale/${id}`);
+  }
   errorMgmt(error: HttpErrorResponse) {
     console.log(error);
     let errorMessage = '';

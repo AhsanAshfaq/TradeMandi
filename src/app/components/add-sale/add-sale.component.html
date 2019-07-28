@@ -68,11 +68,11 @@ Select Product :
 <br />
 <div style="width: 100% !important;">
   <mat-form-field style="width: 140px !important;margin-right: 20px;">
-    <input matInput  placeholder="Date" [(ngModel)]="date" type="date" />
+    <input matInput #QuantityHandler  placeholder="Date" [(ngModel)]="date" type="date" />
   </mat-form-field>
 
   <mat-form-field style="width: 140px !important;margin-right: 20px;">
-    <input matInput #QuantityHandler placeholder="Qty" [(ngModel)]="qty" type="text" />
+    <input matInput placeholder="Qty" style="width: 70px;" [(ngModel)]="qty" type="text" (change)="onChangeRate($event, i)"/>
   </mat-form-field>
 
   <mat-form-field style="width: 140px !important;margin-right: 20px;">
@@ -112,15 +112,15 @@ Select Product :
           <th colspan="2">Action</th>
         </tr>
         <tr *ngFor="let ele of saleDetailList.reverse() | sort: 'productName' let i=index;">
-          <td>{{ele.date | date }}</td>
+          <td>{{ele.date}}</td>
           <td>{{ele.qty}}</td>
           <td>{{ele.rate}}</td>
           <td>{{ele.customerName}}</td>
           <td>{{ele.paymentType}}</td>
           <td>{{ele.productName}}</td>
           <td>{{ele.totalAmount}}</td>
-          <td><button type="button" mat-flat-button color="primary" (click)="onEdit($event, ele.id)">Edit</button></td>
-          <td><button type="button" mat-flat-button color="warn" (click)="onDelete($event, ele.id)">Delete</button></td>
+          <td><button type="button" mat-flat-button color="primary" (click)="onEdit(ele.id)">Edit</button></td>
+          <td><button type="button" mat-flat-button color="warn" (click)="onDelete(ele.id)">Delete</button></td>
         </tr>
       </table>
 </div>

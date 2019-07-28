@@ -1,34 +1,34 @@
+<div *ngIf="showLoading" class="loading">Loading&#8230;</div>
 <!-- Title group  -->
 <div class="title-group">
   <h1 class="mat-h1">Edit Sale</h1>
   <mat-divider fxFlex="1 0"></mat-divider>
 </div>
-
 <!-- Form -->
 <div class="inner-wrapper">
-  <form [formGroup]="saleForm" (ngSubmit)="updateSaleForm()" #resetSaleForm="ngForm" novalidate>
+  <form [formGroup]="saleForm" (ngSubmit)="submitSaleForm()" #resetSaleForm="ngForm" novalidate>
     <!-- Left block -->
     <mat-card>
       <div class="controlers-wrapper">
         <!-- Name -->
         <mat-form-field class="example-full-width">
-          <input matInput placeholder="Builty Number" formControlName="builtyNumber">
-        </mat-form-field>
-
-        <mat-form-field class="example-full-width">
-          <input matInput placeholder="Sale Quantity" formControlName="quantity">
-          <mat-error *ngIf="handleError('quantity', 'required')">
-            You must provide a<strong>sale quantity</strong>
-          </mat-error>
+          <input matInput autofocus placeholder="Builty Number" formControlName="builtyNumber">
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
           <input matInput placeholder="Truck Number" formControlName="truckNumber">
+          <mat-error *ngIf="handleError('truckNumber', 'required')">
+            You must provide a<strong> truck number</strong>
+          </mat-error>
         </mat-form-field>
-        <mat-form-field class="example-full-width">
-          <input matInput placeholder="Product Amount" formControlName="amount">
-          <mat-error *ngIf="handleError('amount', 'required')">
-            You must provide a<strong>product amount</strong>
+        <mat-form-field>
+          <mat-select disabled readonly class="readonly-wrapper" placeholder="Biopari" [(ngModel)]="selectedSupplier" formControlName="supplier">
+            <mat-option *ngFor="let supplier of supplierList" [value]="supplier._id">
+              {{supplier.name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="handleError('supplier', 'required')">
+            You must select a<strong> Biopari</strong>
           </mat-error>
         </mat-form-field>
       </div>
@@ -36,60 +36,127 @@
     <!-- Right block -->
     <mat-card>
       <div class="controlers-wrapper">
-        <mat-form-field>
-          <mat-label>Product</mat-label>
-          <mat-select [(value)]="selectedProduct" formControlName="product">
-            <mat-option [value]="element._id" *ngFor="let element of productList">
-              {{element.name}}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="handleError('product', 'required')">
-            Product is required
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Truck Rent" formControlName="truckRent">
+          <mat-error *ngIf="handleError('truckRent', 'required')">
+            You must provide a<strong> truck rent</strong>
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Customer</mat-label>
-          <mat-select [(value)]="selectedCustomer" formControlName="customer">
-            <mat-option [value]="element._id" *ngFor="let element of customerList">
-              {{element.name}}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="handleError('customer', 'required')">
-            Customer is required
-          </mat-error>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Description" formControlName="description">
         </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Payment Type</mat-label>
-          <mat-select [(value)]="selected" formControlName="paymentType">
-            <mat-option [value]="paymentTypes[key]" *ngFor="let key of keys">
-              {{paymentTypes[key]}}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="handleError('paymentType', 'required')">
-            Payment Type is required
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput readonly [matDatepicker]="picker" placeholder="Sale Date" formControlName="saleDate"
-            (dateChange)="formatDate($event)">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-          <mat-error *ngIf="handleError('saleDate', 'required')">
-            Sale Date is required
-          </mat-error>
-        </mat-form-field>
-      </div>
-    </mat-card>
-
-    <!-- Submit & Reset -->
-    <mat-card>
-      <div class="full-wrapper button-wrapper">
-        <div class="button-wrapper">
-          <button mat-flat-button color="warn">Update</button>
-        </div>
       </div>
     </mat-card>
   </form>
+</div>
+<div style="width: 100%;display: flex;align-items: center;justify-content: center;padding:35px;">
+  <button mat-flat-button style="width: 50%;text-align: center;" color="warn" type="button" (click)="updateSaleInfo()">Update Sale Info</button>
+</div>
+
+<br />
+<mat-divider fxFlex="1 0"></mat-divider>
+<br />
+Select Product :
+<mat-form-field>
+  <mat-select [(value)]="selectedProduct">
+    <mat-option *ngFor="let product of productList" [value]="product._id">
+      {{product.name}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<br />
+<br />
+<mat-divider fxFlex="1 0"></mat-divider>
+<br />
+<div style="width: 100% !important;">
+  <mat-form-field style="width: 140px !important;margin-right: 20px;">
+    <input matInput #QuantityHandler  placeholder="Date" [(ngModel)]="date" type="date" />
+  </mat-form-field>
+
+  <mat-form-field style="width: 140px !important;margin-right: 20px;">
+    <input matInput placeholder="Qty" style="width: 70px;" [(ngModel)]="qty" type="text" (change)="onChangeRate($event, i)"/>
+  </mat-form-field>
+
+  <mat-form-field style="width: 140px !important;margin-right: 20px;">
+    <input matInput placeholder="Rate" type="text" [(ngModel)]="rate" (change)="onChangeRate($event, i)" />
+  </mat-form-field>
+
+  <mat-form-field style="width: 140px !important;margin-right: 20px;">
+    <mat-select placeholder="Customer" [(ngModel)]="selectedCustomer">
+      <mat-option *ngFor="let customer of customerList" [value]="customer._id">
+        {{customer.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field style="width: 140px !important;margin-right: 20px;">
+    <mat-select placeholder="P.Type" [(ngModel)]="selectedPaymentType">
+      <mat-option value="Cash">Cash</mat-option>
+      <mat-option value="Credit">Credit</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field style="width: 140px !important;">
+    <input matInput placeholder="Total" [(ngModel)]="totalAmount" type="text" readonly
+      (keydown.Tab)="InsertCurrentValues()" />
+  </mat-form-field>
+</div>
+<div>
+    <table class="result" style="width: 100%;background: antiquewhite;border: 3px dotted azure;">
+        <tr *ngIf="saleDetailList.length > 0">
+          <th>Date</th>
+          <th>Quantity</th>
+          <th>Rate</th>
+          <th>Customer</th>
+          <th>Payment Type</th>
+          <th>Product</th>
+          <th>Total Amount</th>
+          <th colspan="2">Action</th>
+        </tr>
+        <tr *ngFor="let ele of saleDetailList.reverse() | sort: 'productName' let i=index;">
+          <td>{{ele.date}}</td>
+          <td>{{ele.qty}}</td>
+          <td>{{ele.rate}}</td>
+          <td>{{ele.customerName}}</td>
+          <td>{{ele.paymentType}}</td>
+          <td>{{ele.productName}}</td>
+          <td>{{ele.totalAmount}}</td>
+          <td><button type="button" mat-flat-button color="primary" (click)="onEdit(ele._id)">Edit</button></td>
+          <td><button type="button" mat-flat-button color="warn" (click)="onDelete(ele._id)">Delete</button></td>
+        </tr>
+      </table>
+</div>
+
+<div>
+  <table style="margin-top: 10px !important; float: right; width: 40%;background: antiquewhite;border: 3px dotted azure;" class="result">
+      <tr *ngIf="saleDetailList.length > 0">
+          <td style="text-align: right;"><b>Gross Total</b></td>
+          <td><b>{{grossTotal | currency: 'PKR  '}}</b></td>
+        </tr>
+      <tr *ngIf="saleDetailList.length > 0">
+        <td style="text-align: right;"><b>Munshiana</b></td>
+        <td><input placeholder="Total" [(ngModel)]="munshiana" (keyup)="calculateNetTotal()"  type="number"/></td>
+      </tr>
+      <tr *ngIf="saleDetailList.length > 0">
+        <td style="text-align: right;"><b>Labour</b></td>
+        <td><input placeholder="Total" [(ngModel)]="labour" (keyup)="calculateNetTotal()"  type="number" /></td>
+      </tr>
+      <tr *ngIf="saleDetailList.length > 0">
+        <td style="text-align: right;"><b>Market Committee</b></td>
+        <td><input placeholder="Total" [(ngModel)]="marketCommittee" (keyup)="calculateNetTotal()"  type="number"/></td>
+      </tr>
+      <tr *ngIf="saleDetailList.length > 0">
+        <td style="text-align: right;"><b>Commission</b></td>
+        <td><input placeholder="Total" [(ngModel)]="commission" (keyup)="calculateNetTotal()"  type="number" /></td>
+      </tr>
+      <tr *ngIf="saleDetailList.length > 0">
+        <td style="text-align: right;"><b>Net Total </b></td>
+        <td><b>{{netTotal | currency: 'PKR  '}}</b></td>
+      </tr>
+    </table>
+</div>
+<div *ngIf="saleDetailList.length > 0" style="width: 100%;display: flex;align-items: center;justify-content: center;padding:35px;">
+  <button mat-flat-button style="width: 50%;text-align: center;" color="warn" type="button" (click)="finishSale()">Finish Sale Update</button>
 </div>

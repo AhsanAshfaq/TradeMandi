@@ -1,7 +1,7 @@
 export class SaleDetail {
     sale: any;
     product: any;
-    date: Date;
+    date: string;
     qty: number;
     rate: number;
     customer: any;

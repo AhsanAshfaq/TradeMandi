@@ -32,6 +32,20 @@ saleDetailRoute.route('/saledetails').get((req, res) => {
   })
 })
 
+saleDetailRoute.route('/saledetails/sale/:id').get((req, res) => {
+  Sale.findById(req.params.id, (err, sale) => {
+    SaleDetail.find({ sale: req.params.id }, (error, data) => {
+      if (error) {
+        return next(error)
+      } else {
+        sale.saleDetails.push(data);
+        res.json(data)
+      }
+    })
+  });
+
+})
+
 saleDetailRoute.route('/saledetail/:id').get((req, res) => {
   SaleDetail.findById(req.params.id, (error, data) => {
     if (error) {

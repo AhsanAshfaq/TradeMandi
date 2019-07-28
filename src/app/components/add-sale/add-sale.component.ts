@@ -9,6 +9,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PaymentTypes, Sale } from 'src/app/shared/models/sale';
 import { SaleDetail } from 'src/app/shared/models/saleDetail';
 import { Customer as CustomerModel } from 'src/app/shared/models/customer';
+import { environment } from 'src/environments/environment.prod';
 
 
 @Component({
@@ -18,10 +19,6 @@ import { Customer as CustomerModel } from 'src/app/shared/models/customer';
 })
 
 export class AddSaleComponent implements OnInit {
-  visible = true;
-  selectable = true;
-  removable = true;
-  addOnBlur = true;
   @ViewChild('resetSaleForm', { static: true }) myNgForm: any;
   @ViewChild('QuantityHandler', { static: true }) Quantity: any;
   saleForm: FormGroup;
@@ -36,7 +33,7 @@ export class AddSaleComponent implements OnInit {
   selectedCustomer: any;
   selectedPaymentType: any;
   selectedProduct = '';
-  date: Date = new Date();
+  date = new Date().toISOString().substring(0, 10);
   qty: number;
   rate: number;
   totalAmount: number;
@@ -89,19 +86,42 @@ export class AddSaleComponent implements OnInit {
   }
 
   calculateNetTotal() {
-    this.netTotal = this.grossTotal - (this.munshiana + this.commission + this.labour + this.marketCommittee);
+    this.grossTotal = 0;
+    this.netTotal = 0;
+    this.saleDetailList.forEach(element => {
+      this.grossTotal += element.totalAmount;
+    });
+    this.supplierAPi.GetSupplier(this.selectedSupplier).subscribe((data) => {
+      this.commission = this.grossTotal / 100 * data.commissionPercentage;
+      this.marketCommittee = this.grossTotal / 100 * environment.marketCommittee;
+      this.netTotal = this.grossTotal - (this.munshiana + this.commission + this.labour + this.marketCommittee);
+    });
   }
 
   finishSale() {
-    console.log('Finished');
-    this.ngZone.run(() => this.router.navigateByUrl('/sales-list'));
+    this.showLoading = true;
+    this.salesApi.UpdateSale(this.saleId, {
+      builtyNumber: this.saleForm.value.builtyNumber,
+      truckNumber: this.saleForm.value.truckNumber,
+      truckRent: this.saleForm.value.truckRent,
+      description: this.saleForm.value.description,
+      grossTotal: this.grossTotal,
+      netTotal: this.netTotal,
+      munshiana: this.munshiana,
+      marketCommittee: this.marketCommittee,
+      labour: this.labour,
+      commission: this.commission
+     }, true);
+    setTimeout(() => {
+      console.log('Finished');
+      this.showLoading = false;
+      this.ngZone.run(() => this.router.navigateByUrl('/sales-list'));
+    }, 1000);
   }
 
   private processSaleDetail() {
     this.salesApi.GetSale(this.saleId).subscribe(data => {
       const saleDetailObj = this.createSaleDetailForAdd();
-      this.grossTotal += this.totalAmount;
-      this.netTotal = this.grossTotal - (this.munshiana + this.commission + this.labour + this.marketCommittee);
       this.saleDetailApi.AddSaleDetail(saleDetailObj).subscribe((result: any) => {
         this.saleDetailList.push({
           id: result._id,
@@ -113,6 +133,8 @@ export class AddSaleComponent implements OnInit {
           productName: this.getProductName(),
           totalAmount: this.totalAmount
         });
+        this.munshiana += this.qty * environment.munshiana;
+        this.calculateNetTotal();
         this.resetInputs();
         this.salesApi.UpdateSale(this.saleId, {
           commission: this.commission,
@@ -160,7 +182,7 @@ export class AddSaleComponent implements OnInit {
     }
   }
 
-  onEdit($event, id) {
+  onEdit(id) {
     this.saleDetailApi.GetSaleDetail(id).subscribe((result: any) => {
       this.selectedCustomer = result.customer;
       this.date = result.date;
@@ -172,7 +194,6 @@ export class AddSaleComponent implements OnInit {
       this.grossTotal = 0;
       this.netTotal = 0;
       this.saleDetailList = this.saleDetailList.filter((obj) => {
-        this.grossTotal += obj.totalAmount;
         return obj.id !== id;
       });
       this.calculateNetTotal();
@@ -181,7 +202,11 @@ export class AddSaleComponent implements OnInit {
     });
   }
 
-  onDelete($event, id) {
+  onDelete(id) {
+    this.saleDetailList = this.saleDetailList.filter((obj) => {
+      return obj.id !== id;
+    });
+    this.calculateNetTotal();
     this.saleDetailApi.DeleteSaleDetail(id);
   }
 
@@ -250,7 +275,7 @@ export class AddSaleComponent implements OnInit {
     this.qty = 0;
     this.rate = 0;
     this.totalAmount = 0;
-    this.date = this.currentStringDate;
+    this.date = new Date().toISOString().substring(0, 10);
   }
 
   submitBookForm() {
@@ -258,13 +283,8 @@ export class AddSaleComponent implements OnInit {
       builtyNumber: [''],
       truckRent: ['', [Validators.required]],
       description: [''],
-      saleDate: ['', [Validators.required]],
       truckNumber: ['', [Validators.required]],
-      supplier: ['', [Validators.required]],
-      munshiana: ['', [Validators.required]],
-      marketCommittee: ['', [Validators.required]],
-      labout: ['', [Validators.required]],
-      commission: ['', [Validators.required]]
+      supplier: ['', [Validators.required]]
     });
   }
 

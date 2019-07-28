@@ -18,7 +18,7 @@ SaleDetail.add({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'customers'
   },
-  date: Date,
+  date: String,
   qty: Number,
   rate: Number,
   totalAmount: Number,

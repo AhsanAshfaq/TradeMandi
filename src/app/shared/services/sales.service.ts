@@ -51,12 +51,13 @@ export class SaleApiService {
       );
   }
 
-  UpdateSale(id, data): Observable<any> {
+  UpdateSale(id, data, showDialog = false) {
     const API_URL = `${this.endpoint}/sale/${id}`;
-    return this.http.put(API_URL, data, { headers: this.headers })
-      .pipe(
-        catchError(this.errorMgmt)
-      );
+    return this.http.put(API_URL, data, { headers: this.headers }).subscribe(() => {
+      if (showDialog) {
+        alert('Sale Updated!');
+      }
+    });
   }
 
   DeleteSale(id): Observable<any> {
