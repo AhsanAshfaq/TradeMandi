@@ -83,6 +83,7 @@ export class EditSaleComponent implements OnInit {
             this.saleDetailList.push(result);
           }
           this.calculateNetTotal();
+          this.netTotal = this.grossTotal - (this.munshiana + this.commission + this.labour + this.marketCommittee);
         });
       });
       this.saleForm = this.fb.group({

@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  munshiana: 2,
+  munshiana: 5,
   marketCommittee: 2
 };
